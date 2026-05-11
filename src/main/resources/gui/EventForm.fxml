@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.EventFormController">
+    <stylesheets>
+        <URL value="@../style.css" />
+    </stylesheets>
+
+    <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="auth-hero-panel" AnchorPane.topAnchor="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+        <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+        </padding>
+
+        <Label fx:id="lblTitle" text="Ajouter un Événement" styleClass="auth-hero-title" />
+
+        <GridPane hgap="15" vgap="15" alignment="CENTER" styleClass="form-container">
+            <Label text="Titre:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="form-label" />
+            <TextField fx:id="titreField" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="input-field" prefWidth="300" />
+
+            <Label text="Lieu:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="form-label" />
+            <TextField fx:id="lieuField" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="input-field" prefWidth="300" />
+
+            <Label text="Type:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="form-label" />
+            <TextField fx:id="typeField" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="input-field" prefWidth="300" />
+
+            <Label text="Date Début:" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="form-label" />
+            <DatePicker fx:id="dpDebut" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="input-field" prefWidth="300" />
+
+            <Label text="Date Fin:" GridPane.columnIndex="0" GridPane.rowIndex="4" styleClass="form-label" />
+            <DatePicker fx:id="dpFin" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="input-field" prefWidth="300" />
+        </GridPane>
+
+        <HBox spacing="20" alignment="CENTER">
+            <Button text="Enregistrer" onAction="#handleSave" styleClass="primary-button" prefWidth="120" />
+            <Button text="Annuler" onAction="#handleCancel" styleClass="danger-button" prefWidth="120" />
+        </HBox>
+    </VBox>
+</AnchorPane>

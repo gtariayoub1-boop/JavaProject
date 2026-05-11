@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.QuizController">
+    <center>
+        <BorderPane fx:id="mainContentPane">
+            <center>
+
+                <!-- ═══ PAGE 1 : LISTE DES QUIZ ═══ -->
+                <ScrollPane fx:id="quizListSection" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                            style="-fx-background-color:transparent;-fx-background:transparent;-fx-border-color:transparent;">
+                    <content>
+                        <VBox spacing="18.0">
+                            <padding><Insets bottom="24.0" top="0.0" left="0.0" right="0.0"/></padding>
+                            <HBox spacing="18.0">
+                                <VBox spacing="10.0" styleClass="hero-banner teacher-banner" HBox.hgrow="ALWAYS">
+                                    <padding><Insets bottom="16.0" left="20.0" right="20.0" top="16.0"/></padding>
+                                    <Label styleClass="eyebrow" text="Mes quiz"/>
+                                    <Label styleClass="hero-title small-hero" text="Supervisez tous vos quiz et accédez aux questions." wrapText="true"/>
+                                    <Label fx:id="quizListSubtitleLabel" styleClass="hero-copy" text="Sélectionnez un quiz pour le modifier ou gérer ses questions." wrapText="true"/>
+                                </VBox>
+                                <VBox alignment="CENTER" spacing="10.0">
+                                    <Button onAction="#showQuizCreateForm"    styleClass="primary-button compact-button"   text="+ Nouveau quiz"/>
+                                    <Button onAction="#showStatistiquesPage"  styleClass="secondary-button compact-button" text="📊 Statistiques"/>
+                                    <Label fx:id="quizListMessageLabel" styleClass="status-label neutral-status" text="" wrapText="true"/>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="18.0" VBox.vgrow="ALWAYS">
+                                <VBox spacing="10.0" styleClass="panel-card modules-list-panel" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                                    <Label styleClass="panel-title" text="Liste des quiz"/>
+                                    <TableView fx:id="quizTable" VBox.vgrow="ALWAYS">
+                                        <columns>
+                                            <TableColumn fx:id="quizTitreColumn"     prefWidth="200.0" text="Titre"/>
+                                            <TableColumn fx:id="quizTypeColumn"      prefWidth="110.0" text="Type"/>
+                                            <TableColumn fx:id="quizDureeColumn"     prefWidth="90.0"  text="Durée (min)"/>
+                                            <TableColumn fx:id="quizQuestionsColumn" prefWidth="100.0" text="Cours"/>
+                                            <TableColumn fx:id="quizDispoColumn"     prefWidth="160.0" text="Disponible jusqu'au"/>
+                                            <TableColumn fx:id="quizActionsColumn"   prefWidth="160.0" text="Actions"/>
+                                        </columns>
+                                    </TableView>
+                                </VBox>
+                                <VBox fx:id="quizDetailsPanel" managed="false" visible="false" spacing="14.0" styleClass="panel-card modules-detail-panel">
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                        <Label styleClass="panel-title" text="Fiche du quiz"/>
+                                        <HBox HBox.hgrow="ALWAYS"/>
+                                        <Button onAction="#closeQuizDetails" styleClass="detail-close-button" text="X"/>
+                                    </HBox>
+                                    <VBox spacing="8.0" styleClass="detail-hero-card">
+                                        <Label fx:id="detailQuizTitleLabel" styleClass="detail-hero-title" text="Aucun quiz sélectionné" wrapText="true"/>
+                                        <Label fx:id="detailQuizMetaLabel"  styleClass="detail-hero-meta"  text="Sélectionnez un quiz dans la liste." wrapText="true"/>
+                                    </VBox>
+                                    <GridPane hgap="12.0" vgap="8.0">
+                                        <Label styleClass="detail-key" text="Type"          GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                        <Label fx:id="detailQuizTypeLabel"       styleClass="detail-value" text="-" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                                        <Label styleClass="detail-key" text="Durée"         GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                        <Label fx:id="detailQuizDureeLabel"      styleClass="detail-value" text="-" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                        <Label styleClass="detail-key" text="Tentatives"    GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                                        <Label fx:id="detailQuizTentativesLabel" styleClass="detail-value" text="-" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                        <Label styleClass="detail-key" text="Correction"    GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                                        <Label fx:id="detailQuizCorrectionLabel" styleClass="detail-value" text="-" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                        <Label styleClass="detail-key" text="Disponibilité" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                                        <Label fx:id="detailQuizDispoLabel"      styleClass="detail-value" text="-" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                                        <Label styleClass="detail-key" text="Cours"         GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                                        <Label fx:id="detailQuizCoursLabel"      styleClass="detail-value" text="—" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                                        <Label styleClass="detail-key" text="Description"   GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                                        <Label fx:id="detailQuizDescLabel"       styleClass="detail-value" text="-" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                                    </GridPane>
+                                    <HBox spacing="8.0">
+                                        <Button onAction="#editSelectedQuiz"              styleClass="secondary-button compact-button" text="Modifier"/>
+                                        <Button onAction="#manageQuestionsOfSelectedQuiz" styleClass="primary-button compact-button"   text="Questions"/>
+                                        <Button onAction="#deleteSelectedQuiz"            styleClass="danger-button compact-button"    text="Supprimer"/>
+                                    </HBox>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+                <!-- ═══ PAGE 2 : FORMULAIRE QUIZ ═══ -->
+                <BorderPane fx:id="quizFormSection" managed="false" visible="false">
+                    <top>
+                        <VBox style="-fx-border-color:rgba(255,255,255,0.08);-fx-border-width:0 0 1 0;-fx-background-color:rgba(10,13,18,0.95);">
+                            <padding><Insets top="14.0" right="32.0" bottom="14.0" left="32.0"/></padding>
+                            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                <Label fx:id="quizFormTitleLabel" styleClass="dashboard-title" text="Nouveau quiz" HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="quizFormStatusLabel" styleClass="status-label neutral-status" text="" wrapText="true"/>
+                                <Button onAction="#cancelQuizForm" styleClass="secondary-button compact-button" text="Annuler"/>
+                                <Button onAction="#saveQuiz"       styleClass="primary-button compact-button"   text="✔ Enregistrer le quiz"/>
+                            </HBox>
+                        </VBox>
+                    </top>
+                    <center>
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                                    style="-fx-background-color:transparent;-fx-background:transparent;-fx-border-color:transparent;">
+                            <content>
+                                <VBox spacing="0">
+                                    <padding><Insets bottom="32.0" left="40.0" right="40.0" top="24.0"/></padding>
+                                    <GridPane hgap="24.0" vgap="18.0">
+                                        <columnConstraints>
+                                            <ColumnConstraints percentWidth="28"/>
+                                            <ColumnConstraints percentWidth="72"/>
+                                        </columnConstraints>
+                                        <Label styleClass="detail-key" text="Titre du quiz *"       GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="CENTER"/>
+                                        <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                            <TextField fx:id="quizTitreField" promptText="Ex : Quiz Java POO" styleClass="input-field"/>
+                                            <Label fx:id="quizTitreErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                        <Label styleClass="detail-key" text="Type de quiz *"        GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="CENTER"/>
+                                        <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                            <ComboBox fx:id="quizTypeCombo" maxWidth="1.7976931348623157E308" promptText="Choisissez un type" styleClass="input-combo"/>
+                                            <Label fx:id="quizTypeErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                        <Label styleClass="detail-key" text="Afficher correction *" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.valignment="CENTER"/>
+                                        <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                            <ComboBox fx:id="quizCorrectionApresCombo" maxWidth="1.7976931348623157E308" promptText="Quand afficher ?" styleClass="input-combo"/>
+                                            <Label fx:id="quizCorrectionErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                        <Label styleClass="detail-key" text="Durée (minutes) *"     GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.valignment="CENTER"/>
+                                        <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                            <Spinner fx:id="quizDureeSpinner" min="1" max="480" initialValue="30" editable="true" maxWidth="200.0"/>
+                                            <Label fx:id="quizDureeErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                        <Label styleClass="detail-key" text="Tentatives maximum *"  GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.valignment="CENTER"/>
+                                        <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                            <Spinner fx:id="quizTentativesSpinner" min="1" max="99" initialValue="1" editable="true" maxWidth="200.0"/>
+                                            <Label fx:id="quizTentativesErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                        <Label styleClass="detail-key" text="Cours associé"         GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.valignment="CENTER"/>
+                                        <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                            <ComboBox fx:id="quizCoursCombo" maxWidth="1.7976931348623157E308" promptText="— Sélectionnez un cours —" styleClass="input-combo"/>
+                                            <Label fx:id="quizCoursErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                        <Label styleClass="detail-key" text="Date d'ouverture *"    GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.valignment="CENTER"/>
+                                        <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                            <DatePicker fx:id="quizDateDebutPicker" promptText="jj/mm/aaaa" maxWidth="1.7976931348623157E308" styleClass="input-date-picker"/>
+                                            <Label fx:id="quizDateDebutErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                        <Label styleClass="detail-key" text="Date de clôture *"     GridPane.columnIndex="0" GridPane.rowIndex="7" GridPane.valignment="CENTER"/>
+                                        <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                                            <DatePicker fx:id="quizDateFinPicker" promptText="jj/mm/aaaa" maxWidth="1.7976931348623157E308" styleClass="input-date-picker"/>
+                                            <Label fx:id="quizDateFinErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                            <Label fx:id="quizDateRangeInfoLabel" styleClass="dashboard-subsection" text="" wrapText="true"/>
+                                        </VBox>
+                                        <Label styleClass="detail-key" text="Description"           GridPane.columnIndex="0" GridPane.rowIndex="8" GridPane.valignment="TOP"/>
+                                        <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                                            <TextArea fx:id="quizDescriptionArea" prefRowCount="3" promptText="Décrivez brièvement ce quiz..." wrapText="true" styleClass="input-area"/>
+                                            <Label fx:id="quizDescriptionErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                        <Label styleClass="detail-key" text="Instructions"          GridPane.columnIndex="0" GridPane.rowIndex="9" GridPane.valignment="TOP"/>
+                                        <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                                            <TextArea fx:id="quizInstructionsArea" prefRowCount="3" promptText="Consignes avant le démarrage..." wrapText="true" styleClass="input-area"/>
+                                            <Label fx:id="quizInstructionsErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                    </GridPane>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </center>
+                </BorderPane>
+
+                <!-- ═══ PAGE 3 : LISTE QUESTIONS ═══ -->
+                <ScrollPane fx:id="questionsSection" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                            managed="false" visible="false"
+                            style="-fx-background-color:transparent;-fx-background:transparent;-fx-border-color:transparent;">
+                    <content>
+                        <VBox spacing="18.0">
+                            <padding><Insets bottom="24.0" top="0.0" left="0.0" right="0.0"/></padding>
+                            <HBox spacing="18.0">
+                                <VBox spacing="10.0" styleClass="hero-banner teacher-banner" HBox.hgrow="ALWAYS">
+                                    <padding><Insets bottom="14.0" left="20.0" right="20.0" top="14.0"/></padding>
+                                    <Label styleClass="eyebrow" text="Questions du quiz"/>
+                                    <Label fx:id="questionsSectionTitleLabel"    styleClass="hero-title small-hero" text="Questions" wrapText="true"/>
+                                    <Label fx:id="questionsSectionSubtitleLabel" styleClass="hero-copy" text="Ajoutez, modifiez ou supprimez les questions de ce quiz." wrapText="true"/>
+                                </VBox>
+                                <VBox alignment="CENTER_RIGHT" spacing="10.0">
+                                    <Button onAction="#showQuizListPage"       styleClass="secondary-button compact-button" text="&lt;- Retour quiz"/>
+                                    <Button onAction="#showQuestionCreateForm" styleClass="primary-button compact-button"   text="+ Nouvelle question"/>
+                                    <Button onAction="#genererQuizIA"          styleClass="primary-button compact-button"
+                                            text="🤖 Générer via IA" style="-fx-background-color:#7c3aed;-fx-text-fill:#f5f3ff;"/>
+                                    <Label fx:id="questionsMessageLabel" styleClass="status-label neutral-status" text="" wrapText="true"/>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="18.0" VBox.vgrow="ALWAYS">
+                                <VBox spacing="10.0" styleClass="panel-card modules-list-panel" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                                    <Label styleClass="panel-title" text="Liste des questions"/>
+                                    <TableView fx:id="questionsTable" VBox.vgrow="ALWAYS">
+                                        <columns>
+                                            <TableColumn fx:id="qOrdreColumn"    prefWidth="60.0"  text="#"/>
+                                            <TableColumn fx:id="qTexteColumn"    prefWidth="280.0" text="Enoncé"/>
+                                            <TableColumn fx:id="qTypeColumn"     prefWidth="130.0" text="Type"/>
+                                            <TableColumn fx:id="qPointsColumn"   prefWidth="80.0"  text="Points"/>
+                                            <TableColumn fx:id="qReponsesColumn" prefWidth="90.0"  text="Réponses"/>
+                                            <TableColumn fx:id="qActionsColumn"  prefWidth="160.0" text="Actions"/>
+                                        </columns>
+                                    </TableView>
+                                </VBox>
+                                <VBox fx:id="questionDetailsPanel" managed="false" visible="false" spacing="14.0" styleClass="panel-card modules-detail-panel">
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                        <Label styleClass="panel-title" text="Fiche question"/>
+                                        <HBox HBox.hgrow="ALWAYS"/>
+                                        <Button onAction="#closeQuestionDetails" styleClass="detail-close-button" text="X"/>
+                                    </HBox>
+                                    <VBox spacing="8.0" styleClass="detail-hero-card">
+                                        <Label fx:id="detailQuestionTexteLabel" styleClass="detail-hero-title" text="Aucune question sélectionnée" wrapText="true"/>
+                                        <Label fx:id="detailQuestionMetaLabel"  styleClass="detail-hero-meta"  text="Type · Points" wrapText="true"/>
+                                    </VBox>
+                                    <Label styleClass="panel-title" text="Réponses"/>
+                                    <ScrollPane fitToWidth="true" styleClass="form-scroll-pane" prefHeight="180.0">
+                                        <content>
+                                            <VBox fx:id="detailReponsesContainer" spacing="8.0">
+                                                <padding><Insets right="4.0"/></padding>
+                                            </VBox>
+                                        </content>
+                                    </ScrollPane>
+                                    <Label fx:id="detailQuestionExplicationLabel" styleClass="sidebar-copy" text="" wrapText="true"/>
+                                    <HBox spacing="8.0">
+                                        <Button onAction="#editSelectedQuestion"             styleClass="secondary-button compact-button" text="Modifier"/>
+                                        <Button onAction="#manageReponsesOfSelectedQuestion" styleClass="primary-button compact-button"   text="Réponses"/>
+                                        <Button onAction="#deleteSelectedQuestion"           styleClass="danger-button compact-button"    text="Supprimer"/>
+                                    </HBox>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+                <!-- ═══ PAGE 4 : FORMULAIRE QUESTION ═══ -->
+                <BorderPane fx:id="questionFormSection" managed="false" visible="false">
+                    <top>
+                        <VBox style="-fx-border-color:rgba(255,255,255,0.08);-fx-border-width:0 0 1 0;-fx-background-color:rgba(10,13,18,0.95);">
+                            <padding><Insets top="14.0" right="32.0" bottom="14.0" left="32.0"/></padding>
+                            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                <Label fx:id="questionFormTitleLabel" styleClass="dashboard-title" text="Nouvelle question" HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="questionFormStatusLabel" styleClass="status-label neutral-status" text="" wrapText="true"/>
+                                <Button onAction="#cancelQuestionForm" styleClass="secondary-button compact-button" text="Annuler"/>
+                                <Button onAction="#saveQuestion"       styleClass="primary-button compact-button"   text="✔ Enregistrer"/>
+                            </HBox>
+                        </VBox>
+                    </top>
+                    <center>
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                                    style="-fx-background-color:transparent;-fx-background:transparent;-fx-border-color:transparent;">
+                            <content>
+                                <VBox spacing="0">
+                                    <padding><Insets bottom="32.0" left="40.0" right="40.0" top="24.0"/></padding>
+                                    <GridPane hgap="24.0" vgap="18.0">
+                                        <columnConstraints>
+                                            <ColumnConstraints percentWidth="28"/>
+                                            <ColumnConstraints percentWidth="72"/>
+                                        </columnConstraints>
+                                        <Label styleClass="detail-key" text="Enoncé *"           GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP"/>
+                                        <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                            <TextArea fx:id="questionTexteArea" prefRowCount="4" promptText="Rédigez l'énoncé..." wrapText="true" styleClass="input-area"/>
+                                            <Label fx:id="questionTexteErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                        <Label styleClass="detail-key" text="Type de question *"  GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="CENTER"/>
+                                        <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                            <ComboBox fx:id="questionTypeCombo" maxWidth="1.7976931348623157E308" promptText="Choisissez un type" styleClass="input-combo"/>
+                                            <Label fx:id="questionTypeErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                            <Label fx:id="questionTypeHintLabel"  styleClass="status-label neutral-status" text="" wrapText="true"/>
+                                        </VBox>
+                                        <Label styleClass="detail-key" text="Points *"            GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.valignment="CENTER"/>
+                                        <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                            <Spinner fx:id="questionPointsSpinner" min="1" max="100" initialValue="1" editable="true" maxWidth="200.0"/>
+                                            <Label fx:id="questionPointsErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                        <Label styleClass="detail-key" text="Ordre d'affichage"   GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.valignment="CENTER"/>
+                                        <Spinner fx:id="questionOrdreSpinner" min="1" max="999" initialValue="1" editable="true" maxWidth="200.0"
+                                                 GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                        <Label styleClass="detail-key" text="Explication"         GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.valignment="TOP"/>
+                                        <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                            <TextArea fx:id="questionExplicationArea" prefRowCount="3" promptText="Explication après correction..." wrapText="true" styleClass="input-area"/>
+                                            <Label fx:id="questionExplicationErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                        <!-- VRAI/FAUX -->
+                                        <Label styleClass="detail-key" text="Bonne réponse"       GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.valignment="CENTER"/>
+                                        <VBox fx:id="reponsesVraiFauxPanel" managed="false" visible="false" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                            <HBox spacing="24.0" alignment="CENTER_LEFT">
+                                                <RadioButton fx:id="vraiFauxVraiRadio" text="Vrai">
+                                                    <toggleGroup><ToggleGroup fx:id="vraiFauxGroup"/></toggleGroup>
+                                                </RadioButton>
+                                                <RadioButton fx:id="vraiFauxFauxRadio" text="Faux" toggleGroup="$vraiFauxGroup"/>
+                                            </HBox>
+                                            <Label fx:id="vraiFauxErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                        <!-- CHOIX UNIQUE -->
+                                        <Label styleClass="detail-key" text="Réponses"            GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.valignment="TOP"/>
+                                        <VBox fx:id="reponsesChoixUniquePanel" managed="false" visible="false" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                            <VBox fx:id="choixUniqueReponsesContainer" spacing="8.0"/>
+                                            <Button onAction="#addChoixUniqueRow" styleClass="secondary-button compact-button" text="+ Ajouter une réponse"/>
+                                            <Label fx:id="choixUniqueErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                        <!-- CHOIX MULTIPLE -->
+                                        <VBox fx:id="reponsesChoixMultiplePanel" managed="false" visible="false" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                            <VBox fx:id="choixMultipleReponsesContainer" spacing="8.0"/>
+                                            <Button onAction="#addChoixMultipleRow" styleClass="secondary-button compact-button" text="+ Ajouter une réponse"/>
+                                            <Label fx:id="choixMultipleErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                        <!-- TEXTE LIBRE -->
+                                        <VBox fx:id="reponsesTexteLibrePanel" managed="false" visible="false" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                            <TextArea fx:id="texteLibreReponseArea" prefRowCount="3" promptText="Réponse correcte de référence..." wrapText="true" styleClass="input-area"/>
+                                            <Label fx:id="texteLibreErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                        </VBox>
+                                    </GridPane>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </center>
+                </BorderPane>
+
+                <!-- ═══ PAGE 5 : RÉPONSES ═══ -->
+                <ScrollPane fx:id="reponsesSection" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                            managed="false" visible="false"
+                            style="-fx-background-color:transparent;-fx-background:transparent;-fx-border-color:transparent;">
+                    <content>
+                        <VBox spacing="18.0">
+                            <padding><Insets bottom="24.0" top="0.0" left="0.0" right="0.0"/></padding>
+                            <HBox spacing="18.0">
+                                <VBox spacing="10.0" styleClass="hero-banner teacher-banner" HBox.hgrow="ALWAYS">
+                                    <padding><Insets bottom="14.0" left="20.0" right="20.0" top="14.0"/></padding>
+                                    <Label styleClass="eyebrow" text="Réponses"/>
+                                    <Label fx:id="reponsesSectionTitleLabel"    styleClass="hero-title small-hero" text="Réponses de la question" wrapText="true"/>
+                                    <Label fx:id="reponsesSectionSubtitleLabel" styleClass="hero-copy" text="Ajoutez les réponses et marquez la ou les correctes." wrapText="true"/>
+                                </VBox>
+                                <VBox alignment="CENTER_RIGHT" spacing="10.0">
+                                    <Button onAction="#backToQuestionsFromReponses" styleClass="secondary-button compact-button" text="&lt;- Retour questions"/>
+                                    <Button onAction="#showReponseCreateForm"       styleClass="primary-button compact-button"   text="+ Nouvelle réponse"/>
+                                    <Label fx:id="reponsesMessageLabel" styleClass="status-label neutral-status" text="" wrapText="true"/>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="18.0" VBox.vgrow="ALWAYS">
+                                <VBox spacing="10.0" styleClass="panel-card modules-list-panel" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                                    <Label styleClass="panel-title" text="Liste des réponses"/>
+                                    <TableView fx:id="reponsesTable" VBox.vgrow="ALWAYS">
+                                        <columns>
+                                            <TableColumn fx:id="rOrdreColumn"    prefWidth="60.0"  text="#"/>
+                                            <TableColumn fx:id="rTexteColumn"    prefWidth="300.0" text="Texte réponse"/>
+                                            <TableColumn fx:id="rCorrecteColumn" prefWidth="100.0" text="Correcte"/>
+                                            <TableColumn fx:id="rFeedbackColumn" prefWidth="160.0" text="Feedback"/>
+                                            <TableColumn fx:id="rActionsColumn"  prefWidth="160.0" text="Actions"/>
+                                        </columns>
+                                    </TableView>
+                                </VBox>
+                                <VBox fx:id="reponseFormPanel" managed="false" visible="false" spacing="14.0" styleClass="panel-card modules-detail-panel">
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                        <Label fx:id="reponseFormTitleLabel" styleClass="panel-title" text="Nouvelle réponse"/>
+                                        <HBox HBox.hgrow="ALWAYS"/>
+                                        <Button onAction="#closeReponseForm" styleClass="detail-close-button" text="X"/>
+                                    </HBox>
+                                    <VBox spacing="6.0">
+                                        <Label styleClass="detail-key" text="Texte de la réponse *"/>
+                                        <TextArea fx:id="reponseTexteArea" prefRowCount="4" promptText="Saisissez le texte..." wrapText="true" styleClass="input-area"/>
+                                        <Label fx:id="reponseTexteErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                    </VBox>
+                                    <CheckBox fx:id="reponseCorrecteCheck" text="Cette réponse est correcte" style="-fx-font-weight:700;-fx-text-fill:#16a34a;"/>
+                                    <VBox spacing="6.0">
+                                        <Label styleClass="detail-key" text="Ordre d'affichage"/>
+                                        <Spinner fx:id="reponseOrdreSpinner" min="1" max="99" initialValue="1" editable="true" maxWidth="1.7976931348623157E308"/>
+                                        <Label fx:id="reponseOrdreErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                    </VBox>
+                                    <VBox spacing="6.0">
+                                        <Label styleClass="detail-key" text="Feedback spécifique (optionnel)"/>
+                                        <TextArea fx:id="reponseFeedbackArea" prefRowCount="3" promptText="Message si cette réponse est choisie..." wrapText="true" styleClass="input-area"/>
+                                        <Label fx:id="reponseFeedbackErrorLabel" styleClass="field-error-label" text="" wrapText="true"/>
+                                    </VBox>
+                                    <VBox spacing="6.0">
+                                        <Label styleClass="detail-key" text="URL média (optionnel)"/>
+                                        <TextField fx:id="reponseMediaUrlField" promptText="https://..." styleClass="input-field"/>
+                                    </VBox>
+                                    <Label fx:id="reponseFormStatusLabel" styleClass="status-label neutral-status" text="" wrapText="true"/>
+                                    <HBox spacing="10.0">
+                                        <Button onAction="#closeReponseForm" styleClass="secondary-button compact-button" text="Annuler"/>
+                                        <Button onAction="#saveReponse"      styleClass="primary-button compact-button"   text="Enregistrer"/>
+                                    </HBox>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+                <!-- ═══ PAGE 6 : RÉSULTATS ═══ -->
+                <ScrollPane fx:id="resultatsSection" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                            managed="false" visible="false"
+                            style="-fx-background-color:transparent;-fx-background:transparent;-fx-border-color:transparent;">
+                    <content>
+                        <VBox spacing="18.0">
+                            <padding><Insets bottom="24.0" top="0.0" left="0.0" right="0.0"/></padding>
+                            <HBox spacing="18.0">
+                                <VBox spacing="10.0" styleClass="hero-banner teacher-banner" HBox.hgrow="ALWAYS">
+                                    <padding><Insets bottom="14.0" left="20.0" right="20.0" top="14.0"/></padding>
+                                    <Label styleClass="eyebrow" text="Résultats des étudiants"/>
+                                    <Label fx:id="resultatsSectionTitleLabel"    styleClass="hero-title small-hero" text="Résultats du quiz" wrapText="true"/>
+                                    <Label fx:id="resultatsSectionSubtitleLabel" styleClass="hero-copy" text="Consultez les notes et performances de chaque étudiant." wrapText="true"/>
+                                </VBox>
+                                <VBox alignment="CENTER_RIGHT" spacing="10.0">
+                                    <Button onAction="#backToQuizListFromResultats" styleClass="secondary-button compact-button" text="&lt;- Retour quiz"/>
+                                    <Button onAction="#exporterResultatsPDF"        styleClass="primary-button compact-button"   text="Exporter PDF"/>
+                                    <Label fx:id="resultatsMessageLabel" styleClass="status-label neutral-status" text="" wrapText="true"/>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="14.0">
+                                <VBox spacing="4.0" styleClass="panel-card" HBox.hgrow="ALWAYS" alignment="CENTER" style="-fx-padding:16;">
+                                    <Label styleClass="eyebrow" text="Moyenne de la classe"/>
+                                    <Label fx:id="statsMoyenneLabel" styleClass="hero-title small-hero" text="—"/>
+                                </VBox>
+                                <VBox spacing="4.0" styleClass="panel-card" HBox.hgrow="ALWAYS" alignment="CENTER" style="-fx-padding:16;">
+                                    <Label styleClass="eyebrow" text="Meilleur score"/>
+                                    <Label fx:id="statsMeilleurLabel" styleClass="hero-title small-hero" text="—" style="-fx-text-fill:#16a34a;"/>
+                                </VBox>
+                                <VBox spacing="4.0" styleClass="panel-card" HBox.hgrow="ALWAYS" alignment="CENTER" style="-fx-padding:16;">
+                                    <Label styleClass="eyebrow" text="Score le plus bas"/>
+                                    <Label fx:id="statsPlusBas" styleClass="hero-title small-hero" text="—" style="-fx-text-fill:#dc2626;"/>
+                                </VBox>
+                                <VBox spacing="4.0" styleClass="panel-card" HBox.hgrow="ALWAYS" alignment="CENTER" style="-fx-padding:16;">
+                                    <Label styleClass="eyebrow" text="Tentatives totales"/>
+                                    <Label fx:id="statsTotalLabel" styleClass="hero-title small-hero" text="—"/>
+                                </VBox>
+                            </HBox>
+                            <VBox spacing="10.0" styleClass="panel-card" VBox.vgrow="ALWAYS">
+                                <Label styleClass="panel-title" text="Détail par étudiant"/>
+                                <TableView fx:id="resultatsTable" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="resNomColumn"       prefWidth="140.0" text="Nom"/>
+                                        <TableColumn fx:id="resPrenomColumn"    prefWidth="130.0" text="Prénom"/>
+                                        <TableColumn fx:id="resMatriculeColumn" prefWidth="120.0" text="Matricule"/>
+                                        <TableColumn fx:id="resScoreColumn"     prefWidth="110.0" text="Score (%)"/>
+                                        <TableColumn fx:id="resPointsColumn"    prefWidth="130.0" text="Points obtenus"/>
+                                        <TableColumn fx:id="resDateColumn"      prefWidth="160.0" text="Date de passation"/>
+                                        <TableColumn fx:id="resMentionColumn"   prefWidth="140.0" text="Mention"/>
+                                    </columns>
+                                </TableView>
+                            </VBox>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+                <!-- ═══ PAGE 7 : STATISTIQUES GLOBALES ═══ -->
+                <ScrollPane fx:id="statistiquesSection" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                            managed="false" visible="false"
+                            style="-fx-background-color:transparent;-fx-background:transparent;-fx-border-color:transparent;">
+                    <content>
+                        <VBox spacing="18.0">
+                            <padding><Insets bottom="24.0" top="0.0" left="0.0" right="0.0"/></padding>
+                            <!-- Hero banner -->
+                            <HBox spacing="18.0">
+                                <VBox spacing="10.0" styleClass="hero-banner teacher-banner" HBox.hgrow="ALWAYS">
+                                    <padding><Insets bottom="16.0" left="20.0" right="20.0" top="16.0"/></padding>
+                                    <Label styleClass="eyebrow" text="Tableau de bord"/>
+                                    <Label styleClass="hero-title small-hero" text="📊 Statistiques globales de vos quiz" wrapText="true"/>
+                                    <Label styleClass="hero-copy" text="Identifiez vos quiz les plus difficiles et suivez les performances de vos étudiants." wrapText="true"/>
+                                </VBox>
+                                <VBox alignment="CENTER_RIGHT" spacing="10.0">
+                                    <Button onAction="#showQuizListPage" styleClass="secondary-button compact-button" text="&lt;- Retour quiz"/>
+                                    <Label fx:id="statsGlobalesMessageLabel" styleClass="status-label neutral-status" text="" wrapText="true"/>
+                                </VBox>
+                            </HBox>
+
+                            <!-- 4 KPI cards résumé -->
+                            <HBox spacing="14.0">
+                                <VBox spacing="6.0" styleClass="panel-card" HBox.hgrow="ALWAYS" alignment="CENTER" style="-fx-padding:20;-fx-border-color:rgba(45,212,191,0.22);-fx-border-radius:20px;">
+                                    <Label text="📝" style="-fx-font-size:28px;"/>
+                                    <Label styleClass="eyebrow" text="Total quiz"/>
+                                    <Label fx:id="kpiTotalQuizLabel" styleClass="stat-value" text="—"/>
+                                </VBox>
+                                <VBox spacing="6.0" styleClass="panel-card" HBox.hgrow="ALWAYS" alignment="CENTER" style="-fx-padding:20;-fx-border-color:rgba(251,191,36,0.22);-fx-border-radius:20px;">
+                                    <Label text="🎯" style="-fx-font-size:28px;"/>
+                                    <Label styleClass="eyebrow" text="Total tentatives"/>
+                                    <Label fx:id="kpiTotalTentativesLabel" styleClass="stat-value" text="—"/>
+                                </VBox>
+                                <VBox spacing="6.0" styleClass="panel-card" HBox.hgrow="ALWAYS" alignment="CENTER" style="-fx-padding:20;-fx-border-color:rgba(14,165,233,0.22);-fx-border-radius:20px;">
+                                    <Label text="📈" style="-fx-font-size:28px;"/>
+                                    <Label styleClass="eyebrow" text="Moyenne générale"/>
+                                    <Label fx:id="kpiMoyenneGeneraleLabel" styleClass="stat-value" text="—"/>
+                                </VBox>
+                                <VBox spacing="6.0" styleClass="panel-card" HBox.hgrow="ALWAYS" alignment="CENTER" style="-fx-padding:20;-fx-border-color:rgba(34,197,94,0.22);-fx-border-radius:20px;">
+                                    <Label text="✅" style="-fx-font-size:28px;"/>
+                                    <Label styleClass="eyebrow" text="Taux de réussite"/>
+                                    <Label fx:id="kpiTauxReussiteLabel" styleClass="stat-value" text="—"/>
+                                </VBox>
+                            </HBox>
+
+                            <!-- Top 3 quiz difficiles -->
+                            <HBox spacing="14.0">
+                                <!-- Quiz le plus difficile -->
+                                <VBox spacing="10.0" styleClass="panel-card" HBox.hgrow="ALWAYS"
+                                      style="-fx-border-color:rgba(239,68,68,0.30);-fx-border-radius:20px;">
+                                    <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                        <Label text="🔴" style="-fx-font-size:20px;"/>
+                                        <Label styleClass="panel-title" text="Quiz le plus difficile"/>
+                                    </HBox>
+                                    <Label fx:id="quizPlusDifficileNomLabel"    styleClass="detail-hero-title" text="—" wrapText="true"/>
+                                    <Label fx:id="quizPlusDifficileStatLabel"   styleClass="detail-hero-meta"  text="Moyenne : —" wrapText="true"/>
+                                    <HBox spacing="12.0">
+                                        <VBox alignment="CENTER">
+                                            <Label styleClass="eyebrow" text="Moyenne"/>
+                                            <Label fx:id="quizPlusDifficileMoyLabel" styleClass="hero-title small-hero" text="—" style="-fx-text-fill:#ef4444;"/>
+                                        </VBox>
+                                        <VBox alignment="CENTER">
+                                            <Label styleClass="eyebrow" text="Taux réussite"/>
+                                            <Label fx:id="quizPlusDifficileTauxLabel" styleClass="hero-title small-hero" text="—" style="-fx-text-fill:#f97316;"/>
+                                        </VBox>
+                                        <VBox alignment="CENTER">
+                                            <Label styleClass="eyebrow" text="Tentatives"/>
+                                            <Label fx:id="quizPlusDifficileTentLabel" styleClass="hero-title small-hero" text="—"/>
+                                        </VBox>
+                                    </HBox>
+                                </VBox>
+                                <!-- Quiz le plus facile -->
+                                <VBox spacing="10.0" styleClass="panel-card" HBox.hgrow="ALWAYS"
+                                      style="-fx-border-color:rgba(34,197,94,0.30);-fx-border-radius:20px;">
+                                    <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                        <Label text="🟢" style="-fx-font-size:20px;"/>
+                                        <Label styleClass="panel-title" text="Quiz le plus facile"/>
+                                    </HBox>
+                                    <Label fx:id="quizPlusFacileNomLabel"    styleClass="detail-hero-title" text="—" wrapText="true"/>
+                                    <Label fx:id="quizPlusFacileStatLabel"   styleClass="detail-hero-meta"  text="Moyenne : —" wrapText="true"/>
+                                    <HBox spacing="12.0">
+                                        <VBox alignment="CENTER">
+                                            <Label styleClass="eyebrow" text="Moyenne"/>
+                                            <Label fx:id="quizPlusFacileMoyLabel" styleClass="hero-title small-hero" text="—" style="-fx-text-fill:#16a34a;"/>
+                                        </VBox>
+                                        <VBox alignment="CENTER">
+                                            <Label styleClass="eyebrow" text="Taux réussite"/>
+                                            <Label fx:id="quizPlusFacileTauxLabel" styleClass="hero-title small-hero" text="—" style="-fx-text-fill:#22c55e;"/>
+                                        </VBox>
+                                        <VBox alignment="CENTER">
+                                            <Label styleClass="eyebrow" text="Tentatives"/>
+                                            <Label fx:id="quizPlusFacileTentLabel" styleClass="hero-title small-hero" text="—"/>
+                                        </VBox>
+                                    </HBox>
+                                </VBox>
+                                <!-- Quiz le plus populaire -->
+                                <VBox spacing="10.0" styleClass="panel-card" HBox.hgrow="ALWAYS"
+                                      style="-fx-border-color:rgba(251,191,36,0.30);-fx-border-radius:20px;">
+                                    <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                        <Label text="🌟" style="-fx-font-size:20px;"/>
+                                        <Label styleClass="panel-title" text="Quiz le plus populaire"/>
+                                    </HBox>
+                                    <Label fx:id="quizPlusPopulaireNomLabel"  styleClass="detail-hero-title" text="—" wrapText="true"/>
+                                    <Label fx:id="quizPlusPopulaireStatLabel" styleClass="detail-hero-meta"  text="Tentatives : —" wrapText="true"/>
+                                    <HBox spacing="12.0">
+                                        <VBox alignment="CENTER">
+                                            <Label styleClass="eyebrow" text="Tentatives"/>
+                                            <Label fx:id="quizPlusPopulaireTentLabel" styleClass="hero-title small-hero" text="—" style="-fx-text-fill:#fbbf24;"/>
+                                        </VBox>
+                                        <VBox alignment="CENTER">
+                                            <Label styleClass="eyebrow" text="Moyenne"/>
+                                            <Label fx:id="quizPlusPopulaireMoyLabel" styleClass="hero-title small-hero" text="—"/>
+                                        </VBox>
+                                    </HBox>
+                                </VBox>
+                            </HBox>
+
+                            <!-- Tableau complet de tous les quiz -->
+                            <VBox spacing="10.0" styleClass="panel-card" VBox.vgrow="ALWAYS">
+                                <Label styleClass="panel-title" text="Classement de tous vos quiz par difficulté"/>
+                                <Label styleClass="eyebrow" text="Trié du plus difficile au plus facile (moyenne la plus basse en premier)"/>
+                                <TableView fx:id="statsTable" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="statsTitreColumn"      prefWidth="220.0" text="Quiz"/>
+                                        <TableColumn fx:id="statsMoyenneColumn"    prefWidth="120.0" text="Moyenne (%)"/>
+                                        <TableColumn fx:id="statsTauxColumn"       prefWidth="130.0" text="Taux réussite"/>
+                                        <TableColumn fx:id="statsTentativesColumn" prefWidth="120.0" text="Tentatives"/>
+                                        <TableColumn fx:id="statsMeilleurColumn"   prefWidth="120.0" text="Meilleur score"/>
+                                        <TableColumn fx:id="statsPireColumn"       prefWidth="120.0" text="Score le + bas"/>
+                                        <TableColumn fx:id="statsDifficulteColumn" prefWidth="130.0" text="Difficulté"/>
+                                    </columns>
+                                </TableView>
+                            </VBox>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+            </center>
+        </BorderPane>
+    </center>
+</BorderPane>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginController" styleClass="content-shell auth-shell">
+    <center>
+        <HBox alignment="CENTER" maxWidth="1020.0" spacing="22.0" styleClass="auth-page-shell" BorderPane.alignment="CENTER">
+            <children>
+                <VBox spacing="14.0" styleClass="auth-hero-panel" HBox.hgrow="ALWAYS">
+                    <Label styleClass="auth-kicker" text="Campus Access" />
+                    <Label styleClass="auth-hero-title" text="Connexion a la plateforme" wrapText="true" />
+                    <Label styleClass="auth-hero-copy" text="Connectez-vous avec vos identifiants pour acceder a votre espace administrateur, enseignant ou etudiant." wrapText="true" />
+                    <VBox spacing="10.0" styleClass="auth-feature-list">
+                        <Label styleClass="auth-feature-item" text="Authentification MySQL centralisee" />
+                        <Label styleClass="auth-feature-item" text="Navigation role-based" />
+                        <Label styleClass="auth-feature-item" text="Interface JavaFX commune et coherente" />
+                    </VBox>
+                </VBox>
+                <VBox maxWidth="390.0" spacing="16.0" styleClass="auth-form-card" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                    </padding>
+                    <Label styleClass="section-subtitle" text="Sign In" />
+                    <Label styleClass="card-title" text="Welcome back" />
+                    <Label styleClass="card-subtitle" text="Use the same credentials as your Symfony platform." wrapText="true" />
+                    <TextField fx:id="emailField" promptText="Email address" styleClass="input-field" />
+                    <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field" />
+                    <Button maxWidth="1.7976931348623157E308" onAction="#handleLogin" styleClass="primary-button" text="Login" />
+                    <Button maxWidth="1.7976931348623157E308" onAction="#openForgotPassword" styleClass="secondary-button" text="Forgot password?" />
+                    <Label fx:id="statusLabel" styleClass="status-label" wrapText="true" />
+                </VBox>
+            </children>
+            <padding>
+                <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+            </padding>
+        </HBox>
+    </center>
+</BorderPane>

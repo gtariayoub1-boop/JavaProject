@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.MessageController">
+
+    <top>
+        <VBox spacing="8.0" style="-fx-background-color:#1f2937; -fx-padding:18;">
+            <Button text="← Retour" onAction="#goBack" style="-fx-background-color: #374151; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" />
+            <Label text="Teacher - Messagerie"
+                   style="-fx-text-fill:white; -fx-font-size:22; -fx-font-weight:bold;"/>
+            <Label text="Envoyer et modifier vos messages"
+                   style="-fx-text-fill:#ccfbf1; -fx-font-size:13;"/>
+        </VBox>
+    </top>
+
+    <center>
+        <StackPane>
+            <!-- Search Sidebar and List -->
+            <VBox fx:id="paneList" spacing="10.0" prefWidth="900.0">
+                <padding>
+                    <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+                </padding>
+                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                    <TextField fx:id="tfRechercheMessage" promptText="Rechercher un message..." HBox.hgrow="ALWAYS" />
+                    <Button text="Répondre par IA ✨" onAction="#handleRepondre" style="-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button text="Nouveau message" onAction="#showFormCreate" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button text="Modifier sélection" onAction="#showFormEdit" style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button text="Supprimer sélection" onAction="#supprimerMessage" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+                <TableView fx:id="tvMessages" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colMessageId" text="ID" prefWidth="40.0" />
+                        <TableColumn fx:id="colMessageExpediteur" text="Expéditeur" prefWidth="100.0" />
+                        <TableColumn fx:id="colMessageDestinataire" text="Destinataire" prefWidth="100.0" />
+                        <TableColumn fx:id="colMessageObjet" text="Objet" prefWidth="120.0" />
+                        <TableColumn fx:id="colMessageDate" text="Date" prefWidth="100.0" />
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <!-- Form -->
+            <VBox fx:id="paneForm" spacing="18.0" visible="false" alignment="TOP_CENTER" maxWidth="500.0">
+                <padding>
+                    <Insets top="40.0" right="20.0" bottom="20.0" left="20.0"/>
+                </padding>
+                <Label text="Envoyer un Message" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #374151;"/>
+                <GridPane hgap="14.0" vgap="14.0" alignment="CENTER">
+
+                    <Label text="Expéditeur :" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <TextField fx:id="tfExpediteurNom" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                    <Label text="Destinataire :" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                    <ComboBox fx:id="cbDestinataire" prefWidth="180.0" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+                    <Label text="Objet :" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="tfObjet" promptText="Objet du message" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1"/>
+
+                    <Label text="Contenu :" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2">
+                        <HBox fx:id="aiSuggestionsContainer" spacing="10.0" visible="false" managed="false" alignment="CENTER_LEFT">
+                            <Label text="✨ Suggestions IA :" style="-fx-font-weight: bold; -fx-text-fill: #8b5cf6;"/>
+                            <HBox fx:id="aiButtonsBox" spacing="8.0"/>
+                        </HBox>
+                        <TextArea fx:id="taContenu" prefRowCount="6" wrapText="true"/>
+                    </VBox>
+
+                    <Label text="Statut :" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <ComboBox fx:id="cbStatut" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                    <Label text="Priorité :" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                    <ComboBox fx:id="cbPriorite" prefWidth="180.0" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+
+                    <Label text="Catégorie :" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                    <ComboBox fx:id="cbCategorie" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+                    <Label text="Parent ID :" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+                    <TextField fx:id="tfParentId" promptText="Optionnel" GridPane.columnIndex="3" GridPane.rowIndex="4"/>
+
+                    <Label text="Pièce jointe URL :" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                    <TextField fx:id="tfPieceJointeUrl" promptText="Optionnel"
+                               GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="5"/>
+                </GridPane>
+
+                <HBox spacing="12.0" alignment="CENTER">
+                    <Button text="Envoyer" onAction="#ajouterMessage" style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button text="Enregistrer la Modification" onAction="#modifierMessage" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button text="Annuler" onAction="#hideForm" style="-fx-background-color: #9ca3af; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

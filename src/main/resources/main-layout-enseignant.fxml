@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.MainLayoutEnseignantController">
+    <styleClass>
+        <String fx:value="dashboard-shell" />
+        <String fx:value="academic-shell" />
+        <String fx:value="teacher-shell" />
+    </styleClass>
+    <left>
+        <fx:include fx:id="sidebar" source="sidebar-enseignant.fxml" />
+    </left>
+    <center>
+        <ScrollPane fitToWidth="true"
+                    fitToHeight="true"
+                    hbarPolicy="NEVER"
+                    vbarPolicy="AS_NEEDED"
+                    pannable="false"
+                    styleClass="dashboard-scroll-pane">
+            <content>
+                <StackPane fx:id="contentPane"
+                           styleClass="dashboard-content"
+                           minHeight="-Infinity"
+                           maxWidth="1.7976931348623157E308"
+                           maxHeight="1.7976931348623157E308">
+                    <padding>
+                        <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
+                    </padding>
+                </StackPane>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

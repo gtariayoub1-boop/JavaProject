@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TeacherCoursesController" spacing="18.0">
+    <HBox alignment="CENTER_LEFT" spacing="12.0">
+        <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+            <styleClass>
+                <String fx:value="hero-banner" />
+                <String fx:value="teacher-banner" />
+            </styleClass>
+            <Label styleClass="eyebrow" text="Cours" />
+            <Label text="Mes cours">
+                <styleClass>
+                    <String fx:value="hero-title" />
+                    <String fx:value="small-hero" />
+                </styleClass>
+            </Label>
+            <Label styleClass="content-copy" text="Consultez vos cours et ouvrez rapidement les pages etudiants ou edition." wrapText="true" />
+        </VBox>
+    </HBox>
+    <VBox spacing="10.0" styleClass="panel-card" VBox.vgrow="ALWAYS">
+        <TableView fx:id="coursesTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="codeColumn" prefWidth="120.0" text="Code" />
+                <TableColumn fx:id="titleColumn" prefWidth="220.0" text="Titre" />
+                <TableColumn fx:id="moduleColumn" prefWidth="170.0" text="Module" />
+                <TableColumn fx:id="levelColumn" prefWidth="110.0" text="Niveau" />
+                <TableColumn fx:id="statusColumn" prefWidth="110.0" text="Statut" />
+                <TableColumn fx:id="studentsColumn" prefWidth="100.0" text="Etudiants" />
+                <TableColumn fx:id="actionsColumn" prefWidth="200.0" text="Actions" />
+            </columns>
+        </TableView>
+    </VBox>
+</VBox>

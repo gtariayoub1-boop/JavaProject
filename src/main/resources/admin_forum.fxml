@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.ForumDiscussionController">
+
+    <top>
+        <VBox spacing="8.0" style="-fx-background-color:#1f2937; -fx-padding:18;">
+            <Button text="← Retour" onAction="#goBack" style="-fx-background-color: #374151; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" />
+            <Label text="Admin - Gestion des forums"
+                   style="-fx-text-fill:white; -fx-font-size:22; -fx-font-weight:bold;"/>
+            <Label text="Créer, modifier et supprimer les discussions"
+                   style="-fx-text-fill:#d1d5db; -fx-font-size:13;"/>
+        </VBox>
+    </top>
+
+    <center>
+        <StackPane>
+            <!-- Search Sidebar and List -->
+            <VBox fx:id="paneList" spacing="10.0" prefWidth="900.0">
+                <padding>
+                    <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+                </padding>
+                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                    <TextField fx:id="tfRechercheForum" promptText="Rechercher un forum..." HBox.hgrow="ALWAYS" />
+                    <Button text="Créer un forum" onAction="#showFormCreate" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button text="Modifier sélection" onAction="#showFormEdit" style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button text="Supprimer sélection" onAction="#supprimerForum" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+                <TableView fx:id="tvForums" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colForumId" text="ID" prefWidth="50.0" />
+                        <TableColumn fx:id="colForumTitre" text="Titre" prefWidth="120.0" />
+                        <TableColumn fx:id="colForumCreateur" text="Créateur" prefWidth="120.0" />
+                        <TableColumn fx:id="colForumType" text="Type" prefWidth="80.0" />
+                        <TableColumn fx:id="colForumStatut" text="Statut" prefWidth="80.0" />
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <!-- Form -->
+            <VBox fx:id="paneForm" spacing="18.0" visible="false" alignment="TOP_CENTER" maxWidth="500.0">
+                <padding>
+                    <Insets top="40.0" right="20.0" bottom="20.0" left="20.0"/>
+                </padding>
+                <Label text="Détails du Forum" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #374151;"/>
+                <GridPane hgap="14.0" vgap="14.0" alignment="CENTER">
+
+                    <Label text="Titre :" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <TextField fx:id="tfTitre" promptText="Titre du forum"
+                               GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="0"/>
+
+                    <Label text="Description :" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextArea fx:id="taDescription" prefRowCount="5" wrapText="true"
+                              GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1"/>
+
+                    <Label text="Créateur :" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <ComboBox fx:id="cbCreateur" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                    <Label text="ID Cours :" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                    <TextField fx:id="tfIdCours" promptText="Optionnel" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+
+                    <Label text="Type :" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <ComboBox fx:id="cbType" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                    <Label text="Statut :" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                    <ComboBox fx:id="cbStatut" prefWidth="180.0" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+
+                    <Label text="Tags :" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                    <TextField fx:id="tfTags" promptText="java, jdbc, bug"
+                               GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4"/>
+
+                    <Label text="Règles modération :" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                    <TextArea fx:id="taReglesModeration" prefRowCount="3" wrapText="true"
+                              GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="5"/>
+
+                    <Label text="Image URL :" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                    <TextField fx:id="tfImageCouvertureUrl" promptText="Optionnel"
+                               GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="6"/>
+
+                    <Label text="Pièce jointe URL :" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                    <TextField fx:id="tfPieceJointeUrl" promptText="Optionnel"
+                               GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="7"/>
+                </GridPane>
+
+                <HBox spacing="12.0" alignment="CENTER">
+                    <Button text="Enregistrer l'Ajout" onAction="#ajouterForum" style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button text="Enregistrer la Modification" onAction="#modifierForum" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button text="Annuler" onAction="#hideForm" style="-fx-background-color: #9ca3af; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

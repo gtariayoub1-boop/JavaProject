@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<VBox fx:id="sidebarRoot"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="gui.SidebarEnseignantController"
+      spacing="14.0">
+    <styleClass>
+        <String fx:value="sidebar" />
+        <String fx:value="academic-sidebar" />
+    </styleClass>
+    <padding>
+        <Insets bottom="20.0" left="18.0" right="18.0" top="20.0" />
+    </padding>
+    <VBox spacing="8.0">
+        <Circle fx:id="avatarCircle" radius="28.0" />
+        <Label styleClass="sidebar-brand" text="Teacher Hub" />
+        <Label fx:id="userNameLabel" styleClass="profile-name" text="Enseignant" />
+        <Label fx:id="userRoleLabel" styleClass="sidebar-copy" text="PROF001" />
+    </VBox>
+    <Button fx:id="overviewBtn" maxWidth="1.7976931348623157E308" onAction="#handleOverview" styleClass="sidebar-button" text="Vue d'ensemble" />
+    <Button fx:id="coursesBtn" maxWidth="1.7976931348623157E308" onAction="#handleCourseManagement" styleClass="sidebar-button" text="Mes cours" />
+    <Button fx:id="statisticsBtn" maxWidth="1.7976931348623157E308" onAction="#handleStatistics" styleClass="sidebar-button" text="Statistiques" />
+    <Button fx:id="teacherStudentsBtn" maxWidth="1.7976931348623157E308" onAction="#handleStudentProfiles" styleClass="sidebar-button" text="Mes etudiants" />
+    <Button fx:id="eventsBtn" maxWidth="1.7976931348623157E308" onAction="#handleEventsHub" styleClass="sidebar-button" text="Événements" />
+    <Button fx:id="mesEvaluationsBtn" maxWidth="1.7976931348623157E308" onAction="#handleMesEvaluations" styleClass="sidebar-button" text="Mes evaluations" />
+    <Button fx:id="mesCorrectionsBtn" maxWidth="1.7976931348623157E308" onAction="#handleMesCorrections" styleClass="sidebar-button" text="Mes corrections" />
+    <Button fx:id="quizBtn" maxWidth="1.7976931348623157E308" onAction="#handleQuizHub" styleClass="sidebar-button" text="Mes quiz" />
+    <Button fx:id="forumBtn" maxWidth="1.7976931348623157E308" onAction="#handleForumHub" styleClass="sidebar-button" text="Forum" />
+    <Button fx:id="messagesBtn" maxWidth="1.7976931348623157E308" onAction="#handleMessagesHub" styleClass="sidebar-button" text="Messagerie" />
+    <VBox VBox.vgrow="ALWAYS" />
+    <Label styleClass="sidebar-foot" text="Espace enseignant" />
+    <Button fx:id="deconnexionBtn" maxWidth="1.7976931348623157E308" onAction="#handleDeconnexion" styleClass="secondary-button" text="Deconnexion" />
+</VBox>

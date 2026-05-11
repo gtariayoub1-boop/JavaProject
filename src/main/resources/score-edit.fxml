@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.ScoreEditController"
+            prefHeight="820.0"
+            prefWidth="980.0"
+            stylesheets="@scrollbar-style.css">
+    <center>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS" style="-fx-background-color: transparent;">
+            <VBox spacing="18.0" minHeight="2000.0">
+            <padding>
+                <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+            </padding>
+            <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Modifier la correction" />
+            
+            <!-- Étudiant concerné -->
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Label text="Étudiant:" style="-fx-font-weight: bold;" />
+                <Label fx:id="studentLabel" />
+            </HBox>
+            
+            <!-- Soumission associée (lecture seule) -->
+            <VBox spacing="10.0" style="-fx-background-color: #1a2332; -fx-padding: 15px; -fx-background-radius: 8px; -fx-border-color: rgba(45,212,191,0.3); -fx-border-radius: 8px; -fx-border-width: 1px;">
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2dd4bf;" text="Soumission associée (lecture seule)" />
+                <GridPane hgap="16.0" vgap="8.0">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="150.0" />
+                        <ColumnConstraints />
+                    </columnConstraints>
+                    <Label text="Titre de l'évaluation:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Label fx:id="evaluationTitleLabel" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    
+                    <Label text="Type:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Label fx:id="evaluationTypeLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    
+                    <Label text="ID Étudiant:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <Label fx:id="studentIdLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    
+                    <Label text="Date de soumission:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <Label fx:id="submissionDateLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                </GridPane>
+                
+                <HBox spacing="15.0">
+                    <Hyperlink fx:id="evalPdfLink" onAction="#handleDownloadEvalPdf" text="📄 PDF de l'énoncé" />
+                    <Hyperlink fx:id="submissionPdfLink" onAction="#handleDownloadSubmissionPdf" text="📄 PDF de la soumission" />
+                </HBox>
+            </VBox>
+            
+            <!-- Commentaire de l'étudiant -->
+            <VBox fx:id="studentCommentBox" spacing="5.0">
+                <Label text="Commentaire de l'étudiant:" style="-fx-font-weight: bold; -fx-text-fill: #2dd4bf;" />
+                <Label fx:id="studentCommentLabel" wrapText="true" style="-fx-background-color: #1a2332; -fx-padding: 10px; -fx-background-radius: 8px; -fx-text-fill: #f8fafc; -fx-border-color: rgba(45,212,191,0.2); -fx-border-radius: 8px; -fx-border-width: 1px;" />
+            </VBox>
+            
+            <Separator />
+            
+            <!-- Aperçu de la note actuelle -->
+            <VBox spacing="5.0" style="-fx-background-color: #1a2332; -fx-padding: 15px; -fx-background-radius: 8px; -fx-border-color: rgba(45,212,191,0.3); -fx-border-radius: 8px; -fx-border-width: 1px;">
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2dd4bf;" text="Note actuelle" />
+                <HBox spacing="20.0">
+                    <Label fx:id="currentScoreLabel" style="-fx-font-size: 18px;" />
+                    <Label fx:id="currentPercentageLabel" style="-fx-font-size: 18px;" />
+                    <Label fx:id="currentDateLabel" />
+                </HBox>
+            </VBox>
+            
+            <!-- AI Auto-correction -->
+            <VBox spacing="8.0" style="-fx-background-color: #1a2332; -fx-padding: 15px; -fx-background-radius: 8px; -fx-border-color: rgba(168,85,247,0.3); -fx-border-radius: 8px; -fx-border-width: 1px;">
+                <HBox alignment="CENTER_LEFT" spacing="12.0">
+                    <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #a855f7;" text="🤖 Correction Automatique IA" />
+                    <Button fx:id="aiCorrectionButton" mnemonicParsing="false" onAction="#handleAiAutoCorrection" style="-fx-background-color: #a855f7; -fx-text-fill: white;" text="Regénérer suggestion AI" />
+                </HBox>
+                <Label fx:id="aiStatusLabel" style="-fx-text-fill: #94a3b8;" text="Cliquez sur le bouton pour obtenir une nouvelle suggestion de correction" />
+                <Label style="-fx-text-fill: #5eead4; -fx-font-size: 12px;" text="Consigne de correction (optionnel) - L'IA suivra vos instructions spécifiques:" />
+                <TextArea fx:id="consigneArea" prefRowCount="3" promptText="Ex: Attribuer 0 si le travail est vide, privilégier la créativité, pénaliser les fautes d'orthographe..." wrapText="true" style="-fx-background-color: #0f172a; -fx-text-fill: #f8fafc;" />
+                <Label style="-fx-text-fill: #64748b; -fx-font-size: 11px;" text="L'IA analysera la soumission (PDF inclus) et proposera une nouvelle note et un nouveau commentaire basés sur vos critères. La note actuelle sera remplacée." wrapText="true" />
+            </VBox>
+
+            <!-- Formulaire de modification -->
+            <GridPane hgap="16.0" vgap="14.0">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="180.0" percentWidth="28.0" />
+                    <ColumnConstraints percentWidth="72.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                </rowConstraints>
+                <Label text="Note obtenue" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="noteField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                <Label text="Note maximale" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="noteSurField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <Label text="Commentaire pour l'étudiant" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextArea fx:id="commentaireArea" prefRowCount="4" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            </GridPane>
+
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" text="Annuler" />
+                <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" text="Enregistrer les modifications" />
+            </HBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>
+

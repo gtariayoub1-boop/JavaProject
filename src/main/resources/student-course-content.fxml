@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.StudentCourseContentController" spacing="18.0">
+    <VBox spacing="0.0" styleClass="blackboard-shell">
+        <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="blackboard-topbar">
+            <Button onAction="#handleBackToCourses" styleClass="secondary-button compact-button" text="Retour" />
+            <Label styleClass="blackboard-breadcrumb" text="Cours" />
+            <Label fx:id="topCourseLabel" styleClass="blackboard-course-title" text="Cours" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="detailStatusLabel" styleClass="blackboard-status-pill" text="OUVERT" />
+        </HBox>
+        <HBox spacing="28.0" styleClass="blackboard-tabs">
+            <Label styleClass="blackboard-tab blackboard-tab-active" text="Contenu" />
+            <Label styleClass="blackboard-tab" text="Calendrier" />
+            <Label styleClass="blackboard-tab" text="Annonces" />
+            <Label styleClass="blackboard-tab" text="Discussions" />
+            <Label styleClass="blackboard-tab" text="Carnet de notes" />
+            <Label styleClass="blackboard-tab" text="Messages" />
+            <Label styleClass="blackboard-tab" text="Groupes" />
+        </HBox>
+    </VBox>
+    <HBox spacing="20.0" styleClass="blackboard-body" VBox.vgrow="ALWAYS">
+        <VBox spacing="14.0" styleClass="course-content-column" HBox.hgrow="ALWAYS">
+            <VBox spacing="8.0">
+                <Label styleClass="blackboard-section-title" text="Contenu du cours" />
+                <Label fx:id="detailTitleLabel" styleClass="blackboard-main-title" text="Cours" wrapText="true" />
+                <Label fx:id="detailDescriptionLabel" styleClass="blackboard-main-copy" text="-" wrapText="true" />
+                <HBox spacing="10.0">
+                    <Label fx:id="detailCodeLabel" styleClass="course-meta-chip" text="-" />
+                    <Label fx:id="detailModuleLabel" styleClass="course-meta-chip module-chip" text="-" />
+                </HBox>
+            </VBox>
+            <ScrollPane fitToWidth="true" styleClass="dashboard-scroll-pane" VBox.vgrow="ALWAYS">
+                <content>
+                    <VBox fx:id="contentListBox" spacing="12.0" />
+                </content>
+            </ScrollPane>
+        </VBox>
+        <VBox spacing="14.0" styleClass="course-side-panel">
+            <VBox spacing="12.0" styleClass="blackboard-side-card">
+                <Label styleClass="blackboard-side-title" text="Corps enseignant du cours" />
+                <Label fx:id="teacherSummaryLabel" styleClass="blackboard-side-copy" text="Enseignant non renseigne" wrapText="true" />
+            </VBox>
+            <VBox spacing="12.0" styleClass="blackboard-side-card">
+                <Label styleClass="blackboard-side-title" text="Details et actions" />
+                <VBox spacing="10.0" styleClass="blackboard-link-block">
+                    <Label styleClass="course-stat-caption" text="Annuaire" />
+                    <Label fx:id="sideModuleLabel" styleClass="blackboard-side-link" text="Afficher tous les membres de votre cours" wrapText="true" />
+                </VBox>
+                <VBox spacing="10.0" styleClass="blackboard-link-block">
+                    <Label styleClass="course-stat-caption" text="Presence" />
+                    <Label fx:id="sideCodeLabel" styleClass="blackboard-side-link" text="Afficher votre presence" wrapText="true" />
+                </VBox>
+                <VBox spacing="10.0" styleClass="blackboard-link-block">
+                    <Label styleClass="course-stat-caption" text="Manuels et outils" />
+                    <Label fx:id="sideOrganizationLabel" styleClass="blackboard-side-link" text="Afficher les outils du cours" wrapText="true" />
+                </VBox>
+            </VBox>
+            <VBox spacing="12.0" styleClass="blackboard-side-card">
+                <Label styleClass="blackboard-side-title" text="Resume du cours" />
+                <FlowPane hgap="12.0" vgap="12.0">
+                    <VBox spacing="4.0" styleClass="course-stat-card">
+                        <Label styleClass="course-stat-caption" text="Contenus" />
+                        <Label fx:id="detailContentsCountLabel" styleClass="course-stat-value" text="0" />
+                    </VBox>
+                    <VBox spacing="4.0" styleClass="course-stat-card">
+                        <Label styleClass="course-stat-caption" text="Niveau" />
+                        <Label fx:id="detailLevelLabel" styleClass="course-stat-value small-value" text="-" />
+                    </VBox>
+                    <VBox spacing="4.0" styleClass="course-stat-card">
+                        <Label styleClass="course-stat-caption" text="Langue" />
+                        <Label fx:id="detailLanguageLabel" styleClass="course-stat-value small-value" text="-" />
+                    </VBox>
+                    <VBox spacing="4.0" styleClass="course-stat-card">
+                        <Label styleClass="course-stat-caption" text="Periode" />
+                        <Label fx:id="detailScheduleLabel" styleClass="course-stat-value small-value" text="-" wrapText="true" />
+                    </VBox>
+                </FlowPane>
+                <Label fx:id="contentSummaryLabel" styleClass="blackboard-side-copy" text="-" wrapText="true" />
+                <Label fx:id="detailMetaLabel" styleClass="dashboard-subsection" text="-" wrapText="true" />
+                <Hyperlink fx:id="firstResourceLink" onAction="#handleOpenFirstResource" styleClass="course-open-link" text="Ouvrir la premiere ressource" visible="false" managed="false" />
+            </VBox>
+        </VBox>
+    </HBox>
+</VBox>

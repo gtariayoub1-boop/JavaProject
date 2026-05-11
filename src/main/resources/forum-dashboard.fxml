@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ForumDiscussionController" spacing="18.0">
+    <VBox spacing="8.0">
+        <styleClass>
+            <String fx:value="hero-banner" />
+            <String fx:value="teacher-banner" />
+        </styleClass>
+        <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <VBox HBox.hgrow="ALWAYS" spacing="4.0">
+                <Label styleClass="eyebrow" text="Forum" />
+                <Label fx:id="pageTitleLabel" text="Forums collaboratifs" wrapText="true">
+                    <styleClass>
+                        <String fx:value="hero-title" />
+                        <String fx:value="small-hero" />
+                    </styleClass>
+                </Label>
+                <Label fx:id="pageSubtitleLabel" styleClass="hero-copy" text="Discutez dans une interface unifiee." wrapText="true" />
+            </VBox>
+            <Label fx:id="roleBadgeLabel" styleClass="badge badge-info" text="ROLE" />
+        </HBox>
+    </VBox>
+
+    <HBox spacing="14.0">
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <Label styleClass="stat-title" text="Createur connecte" />
+            <Label fx:id="creatorInfoLabel" styleClass="card-value" text="-" wrapText="true" />
+        </VBox>
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <Label styleClass="stat-title" text="Mode" />
+            <Label styleClass="card-value" text="Import dev-ahmed integre au template actuel" wrapText="true" />
+        </VBox>
+    </HBox>
+
+    <HBox spacing="18.0" VBox.vgrow="ALWAYS">
+        <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+            <styleClass>
+                <String fx:value="panel-card" />
+                <String fx:value="modules-list-panel" />
+            </styleClass>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Label styleClass="panel-title" text="Discussions" />
+                <HBox HBox.hgrow="ALWAYS" />
+                <Button onAction="#handleRefresh" styleClass="secondary-button compact-button" text="Actualiser" />
+            </HBox>
+            <TableView fx:id="forumTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="idColumn" prefWidth="70.0" text="ID" />
+                    <TableColumn fx:id="titreColumn" prefWidth="200.0" text="Titre" />
+                    <TableColumn fx:id="auteurColumn" prefWidth="180.0" text="Auteur" />
+                    <TableColumn fx:id="typeColumn" prefWidth="100.0" text="Type" />
+                    <TableColumn fx:id="statutColumn" prefWidth="100.0" text="Statut" />
+                    <TableColumn fx:id="activiteColumn" prefWidth="150.0" text="Derniere activite" />
+                    <TableColumn fx:id="tagsColumn" prefWidth="220.0" text="Tags" />
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox spacing="14.0" HBox.hgrow="ALWAYS">
+            <styleClass>
+                <String fx:value="panel-card" />
+                <String fx:value="details-panel" />
+            </styleClass>
+            <Label styleClass="panel-title" text="Edition de la discussion" />
+            <GridPane hgap="14.0" vgap="12.0">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="110.0" />
+                    <ColumnConstraints hgrow="ALWAYS" />
+                </columnConstraints>
+                <Label styleClass="detail-key" text="Titre" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="titreField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Label styleClass="detail-key" text="Description" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextArea fx:id="descriptionArea" prefRowCount="5" styleClass="input-area" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label styleClass="detail-key" text="ID cours" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextField fx:id="courseIdField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label styleClass="detail-key" text="Type" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <ComboBox fx:id="typeCombo" styleClass="input-combo" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Label styleClass="detail-key" text="Statut" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <ComboBox fx:id="statutCombo" styleClass="input-combo" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Label styleClass="detail-key" text="Tags" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                <TextField fx:id="tagsField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Label styleClass="detail-key" text="Moderation" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                <TextArea fx:id="moderationArea" prefRowCount="3" styleClass="input-area" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                <Label styleClass="detail-key" text="Image URL" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                <TextField fx:id="imageField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                <Label styleClass="detail-key" text="Piece jointe" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                <TextField fx:id="attachmentField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            </GridPane>
+            <Label fx:id="statusLabel" text="" wrapText="true">
+                <styleClass>
+                    <String fx:value="status-label" />
+                    <String fx:value="neutral-status" />
+                </styleClass>
+            </Label>
+            <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                <Button onAction="#handleClearForm" styleClass="secondary-button compact-button" text="Vider" />
+                <Button fx:id="deleteButton" onAction="#handleDeleteForum" styleClass="danger-button compact-button" text="Supprimer" />
+                <Button fx:id="saveButton" onAction="#handleSaveForum" styleClass="primary-button compact-button" text="Publier / Mettre a jour" />
+            </HBox>
+            <VBox VBox.vgrow="ALWAYS" />
+        </VBox>
+    </HBox>
+    <padding>
+        <Insets bottom="8.0" left="0.0" right="0.0" top="0.0" />
+    </padding>
+</VBox>

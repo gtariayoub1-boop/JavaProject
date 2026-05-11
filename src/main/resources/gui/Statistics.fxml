@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="gui.StatisticsController" styleClass="dashboard-content">
+    
+    <stylesheets>
+        <URL value="@../style.css" />
+    </stylesheets>
+
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <Label text="Statistiques des Événements" styleClass="page-title" />
+
+    <HBox spacing="20" alignment="CENTER" VBox.vgrow="ALWAYS">
+        <VBox alignment="CENTER" HBox.hgrow="ALWAYS" styleClass="card">
+            <Label text="Répartition par Type d'Événement" styleClass="card-header" />
+            <PieChart fx:id="typeChart" styleClass="chart" />
+        </VBox>
+        
+        <VBox alignment="CENTER" HBox.hgrow="ALWAYS" styleClass="card">
+            <Label text="Participations par Événement" styleClass="card-header" />
+            <BarChart fx:id="participationChart" styleClass="chart">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" />
+                </yAxis>
+            </BarChart>
+        </VBox>
+    </HBox>
+
+    <Button text="Retour" onAction="#handleRetour" styleClass="secondary-button" />
+</VBox>

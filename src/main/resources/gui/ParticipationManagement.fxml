@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ParticipationManagementController">
+    <stylesheets>
+        <URL value="@../style.css" />
+    </stylesheets>
+
+    <ScrollPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" 
+                fitToWidth="true" vbarPolicy="AS_NEEDED" styleClass="scroll-pane">
+        <content>
+            <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="dashboard-content" style="-fx-min-width: 800;">
+                <padding>
+                    <Insets bottom="30.0" left="20.0" right="20.0" top="20.0" />
+                </padding>
+
+                <HBox alignment="TOP_RIGHT">
+                    <Button text="Déconnexion" onAction="#handleLogout" styleClass="danger-button" />
+                </HBox>
+
+                <Label text="Liste des Participations" styleClass="page-title" />
+
+                <HBox spacing="10" alignment="CENTER" styleClass="search-container">
+                    <Label text="Rechercher:" styleClass="form-label" />
+                    <TextField fx:id="searchField" promptText="Nom, Prénom ou Événement..." prefWidth="300" styleClass="input-field" />
+                </HBox>
+
+                <TableView fx:id="participationTable" prefHeight="600" minHeight="500" styleClass="table-view">
+                    <columns>
+                        <TableColumn fx:id="colNom" text="Nom" prefWidth="100" />
+                        <TableColumn fx:id="colPrenom" text="Prénom" prefWidth="100" />
+                        <TableColumn fx:id="colTel" text="Téléphone" prefWidth="100" />
+                        <TableColumn fx:id="colEmail" text="Email" prefWidth="150" />
+                        <TableColumn fx:id="colAnnee" text="Année Scolaire" prefWidth="120" />
+                        <TableColumn fx:id="colDescription" text="Description" prefWidth="150" />
+                        <TableColumn fx:id="colEvent" text="Événement" prefWidth="120" />
+                        <TableColumn fx:id="colStatut" text="Statut" prefWidth="100" />
+                        <TableColumn fx:id="colDate" text="Date d'inscription" prefWidth="120" />
+                    </columns>
+                </TableView>
+
+                <HBox spacing="10" alignment="CENTER" styleClass="padding-md">
+                    <Button text="Retour aux Événements" onAction="#handleRetour" styleClass="secondary-button" />
+                    <Button fx:id="btnPDF" text="Exporter PDF" onAction="#handleExportPDF" styleClass="button-success" />
+                </HBox>
+                <Region prefHeight="50" />
+            </VBox>
+        </content>
+    </ScrollPane>
+</AnchorPane>

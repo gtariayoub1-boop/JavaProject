@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="gui.AdminCourseStatisticsController"
+      spacing="18.0">
+    <children>
+        <HBox alignment="CENTER_LEFT" spacing="16.0">
+            <children>
+                <VBox spacing="8.0" styleClass="hero-banner" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label styleClass="eyebrow" text="Analytics" />
+                        <Label styleClass="hero-title" text="Statistiques cours et modules" />
+                        <Label styleClass="sidebar-copy"
+                               text="Suivez les cours les plus visites, le temps passe et la performance de chaque module."
+                               wrapText="true" />
+                    </children>
+                </VBox>
+                <Button onAction="#handleRefresh" styleClass="secondary-button" text="Rafraichir" />
+            </children>
+        </HBox>
+
+        <HBox spacing="14.0">
+            <children>
+                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label styleClass="stat-title" text="Modules" />
+                        <Label fx:id="totalModulesValueLabel" styleClass="stat-value" text="0" />
+                    </children>
+                </VBox>
+                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label styleClass="stat-title" text="Cours" />
+                        <Label fx:id="totalCoursesValueLabel" styleClass="stat-value" text="0" />
+                    </children>
+                </VBox>
+                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label styleClass="stat-title" text="Vues uniques" />
+                        <Label fx:id="totalViewsValueLabel" styleClass="stat-value" text="0" />
+                    </children>
+                </VBox>
+                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label styleClass="stat-title" text="Temps cumule" />
+                        <Label fx:id="totalTimeValueLabel" styleClass="stat-value" text="0 min" />
+                    </children>
+                </VBox>
+                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+                    </padding>
+                    <children>
+                        <Label styleClass="stat-title" text="Cours le plus visite" />
+                        <Label fx:id="topCourseValueLabel" styleClass="sidebar-copy" text="-" wrapText="true" />
+                    </children>
+                </VBox>
+                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+                    </padding>
+                    <children>
+                        <Label styleClass="stat-title" text="Module le plus suivi" />
+                        <Label fx:id="topModuleValueLabel" styleClass="sidebar-copy" text="-" wrapText="true" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <HBox spacing="18.0">
+            <children>
+                <VBox spacing="10.0" styleClass="panel-card" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label styleClass="panel-title" text="Top 5 cours par vues" />
+                        <BarChart fx:id="topCoursesChart" animated="false" categoryGap="20.0" legendVisible="false" VBox.vgrow="ALWAYS">
+                            <xAxis>
+                                <CategoryAxis />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis forceZeroInRange="true" minorTickVisible="false" />
+                            </yAxis>
+                        </BarChart>
+                    </children>
+                </VBox>
+                <VBox spacing="10.0" styleClass="panel-card" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label styleClass="panel-title" text="Top 5 modules par temps (min)" />
+                        <BarChart fx:id="topModulesChart" animated="false" categoryGap="20.0" legendVisible="false" VBox.vgrow="ALWAYS">
+                            <xAxis>
+                                <CategoryAxis />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis forceZeroInRange="true" minorTickVisible="false" />
+                            </yAxis>
+                        </BarChart>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <HBox spacing="18.0">
+            <children>
+                <VBox spacing="10.0" styleClass="panel-card" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label styleClass="panel-title" text="Statistiques par cours" />
+                        <TableView fx:id="courseStatsTable" prefHeight="320.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="courseCodeColumn" prefWidth="120.0" text="Code" />
+                                <TableColumn fx:id="courseTitleColumn" prefWidth="240.0" text="Cours" />
+                                <TableColumn fx:id="courseModuleColumn" prefWidth="170.0" text="Module" />
+                                <TableColumn fx:id="courseViewsColumn" prefWidth="90.0" text="Vues" />
+                                <TableColumn fx:id="courseTimeColumn" prefWidth="120.0" text="Temps" />
+                                <TableColumn fx:id="courseStudentsColumn" prefWidth="120.0" text="Etudiants" />
+                                <TableColumn fx:id="courseContentsColumn" prefWidth="90.0" text="Contenus" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <HBox spacing="18.0">
+            <children>
+                <VBox spacing="10.0" styleClass="panel-card" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label styleClass="panel-title" text="Statistiques par module" />
+                        <TableView fx:id="moduleStatsTable" prefHeight="320.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="moduleTitleColumn" prefWidth="240.0" text="Module" />
+                                <TableColumn fx:id="moduleStatusColumn" prefWidth="110.0" text="Statut" />
+                                <TableColumn fx:id="moduleCoursesColumn" prefWidth="90.0" text="Cours" />
+                                <TableColumn fx:id="moduleContentsColumn" prefWidth="100.0" text="Contenus" />
+                                <TableColumn fx:id="moduleViewsColumn" prefWidth="90.0" text="Vues" />
+                                <TableColumn fx:id="moduleTimeColumn" prefWidth="120.0" text="Temps" />
+                                <TableColumn fx:id="moduleStudentsColumn" prefWidth="120.0" text="Etudiants" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</VBox>

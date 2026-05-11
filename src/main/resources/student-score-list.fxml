@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.StudentScoreListController"
+            prefHeight="720.0"
+            prefWidth="1100.0"
+            styleClass="content-shell">
+    <top>
+        <VBox spacing="18.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="16.0" left="4.0" right="4.0" top="4.0" />
+            </padding>
+            <VBox spacing="10.0" styleClass="content-header student-banner">
+                <Label styleClass="content-title" text="Mes notes" />
+                <Label styleClass="content-copy" text="Consultez vos notes, vos pourcentages et l'historique des corrections dans une vue claire." wrapText="true" />
+            </VBox>
+            <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="filter-bar">
+                <TextField fx:id="searchField" promptText="Titre d'évaluation, type..." styleClass="input-field" HBox.hgrow="ALWAYS" />
+                <ComboBox fx:id="sortByComboBox" prefWidth="160.0" styleClass="input-combo" />
+                <ComboBox fx:id="sortOrderComboBox" prefWidth="140.0" styleClass="input-combo" />
+                <ComboBox fx:id="pageSizeComboBox" prefWidth="100.0" styleClass="input-combo" />
+            </HBox>
+        </VBox>
+    </top>
+    <center>
+        <VBox styleClass="section-card">
+            <Label styleClass="section-subtitle" text="Historique des notes" />
+            <TableView fx:id="notesTableView" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="60.0" />
+                    <TableColumn fx:id="evaluationColumn" text="Évaluation" prefWidth="250.0" />
+                    <TableColumn fx:id="typeColumn" text="Type" prefWidth="120.0" />
+                    <TableColumn fx:id="noteColumn" text="Note" prefWidth="100.0" />
+                    <TableColumn fx:id="pourcentageColumn" text="Pourcentage" prefWidth="100.0" />
+                    <TableColumn fx:id="statutColumn" text="Statut" prefWidth="120.0" />
+                    <TableColumn fx:id="dateColumn" text="Date correction" prefWidth="120.0" />
+                    <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="100.0" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="12.0" styleClass="filter-bar">
+            <Label fx:id="paginationSummaryLabel" styleClass="muted-label" text="0 note" />
+            <Pagination fx:id="pagination" maxPageIndicatorCount="5" pageCount="1" />
+        </HBox>
+    </bottom>
+</BorderPane>

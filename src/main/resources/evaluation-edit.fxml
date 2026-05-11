@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.EvaluationEditController"
+            prefHeight="760.0"
+            prefWidth="980.0">
+    <center>
+        <VBox spacing="18.0">
+            <padding>
+                <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+            </padding>
+            <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Modifier évaluation" />
+            <GridPane hgap="16.0" vgap="14.0">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="180.0" percentWidth="28.0" />
+                    <ColumnConstraints percentWidth="72.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                </rowConstraints>
+                <Label text="Titre de l'évaluation" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="titleField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Label text="Type d'évaluation" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <ComboBox fx:id="typeComboBox" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label text="Description" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextArea fx:id="descriptionArea" prefRowCount="5" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label text="Cours" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <ComboBox fx:id="courseComboBox" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Label text="ID Enseignant" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <TextField fx:id="teacherIdField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Label text="Date limite" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                <DatePicker fx:id="deadlinePicker" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Label text="Note maximale" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                <TextField fx:id="maxScoreField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                <Label text="Mode de remise" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                <ComboBox fx:id="submissionModeComboBox" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                <Label text="Statut" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                <ComboBox fx:id="statusComboBox" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            </GridPane>
+            <VBox spacing="10.0">
+                <Label text="Fichier PDF" />
+                <HBox spacing="10.0">
+                    <TextField fx:id="pdfPathField" editable="false" />
+                    <Button fx:id="browsePdfButton" mnemonicParsing="false" onAction="#handleBrowsePdf" text="Remplacer / ajouter PDF" />
+                </HBox>
+            </VBox>
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" text="Annuler" />
+                <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" text="Enregistrer" />
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
+

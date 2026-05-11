@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<VBox alignment="CENTER" spacing="30.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="gui.RoleSelectionController" styleClass="auth-shell">
+    
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+
+    <padding>
+        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+    </padding>
+
+    <VBox alignment="CENTER" spacing="10" styleClass="auth-hero-panel">
+        <Label text="Bienvenue" styleClass="auth-hero-title" />
+        <Label text="Veuillez choisir votre mode d'accès" styleClass="auth-hero-copy" />
+    </VBox>
+
+    <HBox spacing="20" alignment="CENTER">
+        <Button text="Accès Administrateur" onAction="#handleAdminAccess" prefHeight="60" prefWidth="220" styleClass="secondary-button" />
+        <Button text="Accès Utilisateur" onAction="#handleUserAccess" prefHeight="60" prefWidth="220" styleClass="primary-button" />
+    </HBox>
+</VBox>

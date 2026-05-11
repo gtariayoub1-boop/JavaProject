@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.ScoreDetailController"
+            prefHeight="820.0"
+            prefWidth="900.0"
+            stylesheets="@scrollbar-style.css">
+    <center>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" style="-fx-background-color: transparent;">
+            <VBox spacing="18.0">
+            <padding>
+                <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+            </padding>
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Détails de la correction" />
+                <HBox HBox.hgrow="ALWAYS" />
+                <Button fx:id="editButton" mnemonicParsing="false" onAction="#handleEdit" text="Modifier" />
+                <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Supprimer" />
+                <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Retour" />
+            </HBox>
+            
+            <!-- Informations sur l'évaluation -->
+            <VBox spacing="10.0" style="-fx-background-color: #1a2332; -fx-padding: 15px; -fx-background-radius: 8px; -fx-border-color: rgba(45,212,191,0.3); -fx-border-radius: 8px; -fx-border-width: 1px;">
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2dd4bf;" text="Informations sur l'évaluation" />
+                <GridPane hgap="16.0" vgap="8.0">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="150.0" percentWidth="35.0" />
+                        <ColumnConstraints percentWidth="65.0" />
+                    </columnConstraints>
+                    <Label text="Titre:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Label fx:id="evaluationTitleLabel" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    
+                    <Label text="Type:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Label fx:id="evaluationTypeLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    
+                    <Label text="Cours:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <Label fx:id="courseLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    
+                    <Label text="Étudiant concerné:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <Label fx:id="studentLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    
+                    <Label text="Date de soumission:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <Label fx:id="submissionDateLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                    
+                    <Label text="Statut de la soumission:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                    <Label fx:id="submissionStatusLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                </GridPane>
+            </VBox>
+            
+            <Separator />
+            
+            <!-- Informations de notation -->
+            <VBox spacing="10.0" style="-fx-background-color: #1a2332; -fx-padding: 15px; -fx-background-radius: 8px; -fx-border-color: rgba(45,212,191,0.3); -fx-border-radius: 8px; -fx-border-width: 1px;">
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2dd4bf;" text="Informations de notation" />
+                <GridPane hgap="16.0" vgap="12.0">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="150.0" percentWidth="35.0" />
+                        <ColumnConstraints percentWidth="65.0" />
+                    </columnConstraints>
+                    <Label text="Note obtenue:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Label fx:id="noteLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    
+                    <Label text="Pourcentage:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Label fx:id="pourcentageLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    
+                    <Label text="Résultat:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <Label fx:id="resultatLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    
+                    <Label text="Statut de correction:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <Label fx:id="correctionStatusLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    
+                    <Label text="Date de correction:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <Label fx:id="correctionDateLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                    
+                    <Label text="Mention:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                    <Label fx:id="mentionLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                    
+                    <Label text="Classement:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                    <Label fx:id="rankLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #fbbf24;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                    
+                    <Label text="Meilleure note:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                    <Label fx:id="maxNoteLabel" style="-fx-text-fill: #4ade80;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                    
+                    <Label text="Note la plus faible:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                    <Label fx:id="minNoteLabel" style="-fx-text-fill: #f87171;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                </GridPane>
+            </VBox>
+            
+            <!-- Graphique: Distribution des notes -->
+            <VBox spacing="10.0" style="-fx-background-color: #1a2332; -fx-padding: 15px; -fx-background-radius: 8px; -fx-border-color: rgba(168,85,247,0.3); -fx-border-radius: 8px; -fx-border-width: 1px;">
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #a855f7;" text="📊 Distribution des notes de la classe" />
+                <BarChart fx:id="gradeDistributionChart" prefHeight="250.0" prefWidth="800.0" style="-fx-background-color: transparent;">
+                    <xAxis>
+                        <CategoryAxis label="Tranches de notes" side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis label="Nombre d'étudiants" side="LEFT" />
+                    </yAxis>
+                </BarChart>
+                <Label fx:id="studentPositionLabel" style="-fx-text-fill: #fbbf24; -fx-font-weight: bold;" text="" />
+            </VBox>
+            
+            <!-- Commentaire de l'enseignant -->
+            <VBox fx:id="teacherCommentBox" spacing="5.0">
+                <Label text="Commentaire de l'enseignant:" style="-fx-font-weight: bold; -fx-text-fill: #2dd4bf;" />
+                <Label fx:id="teacherCommentLabel" wrapText="true" style="-fx-background-color: #1a2332; -fx-padding: 10px; -fx-background-radius: 8px; -fx-text-fill: #f8fafc; -fx-border-color: rgba(45,212,191,0.2); -fx-border-radius: 8px; -fx-border-width: 1px;" />
+            </VBox>
+            
+            <!-- Commentaire de l'étudiant -->
+            <VBox fx:id="studentCommentBox" spacing="5.0">
+                <Label text="Commentaire de l'étudiant:" style="-fx-font-weight: bold; -fx-text-fill: #2dd4bf;" />
+                <Label fx:id="studentCommentLabel" wrapText="true" style="-fx-background-color: #1a2332; -fx-padding: 10px; -fx-background-radius: 8px; -fx-text-fill: #f8fafc; -fx-border-color: rgba(45,212,191,0.2); -fx-border-radius: 8px; -fx-border-width: 1px;" />
+            </VBox>
+            
+            <!-- Accès aux fichiers -->
+            <HBox alignment="CENTER_LEFT" spacing="15.0">
+                <Label text="Accès aux fichiers:" style="-fx-font-weight: bold;" />
+                <Hyperlink fx:id="evalPdfLink" onAction="#handleDownloadEvalPdf" text="📄 Énoncé PDF" />
+                <Hyperlink fx:id="submissionPdfLink" onAction="#handleDownloadSubmissionPdf" text="📄 Soumission PDF" />
+            </HBox>
+            
+            <!-- Bouton vers détail soumission -->
+            <Button fx:id="viewSubmissionButton" mnemonicParsing="false" onAction="#handleViewSubmission" text="Voir le détail de la soumission" />
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>
+

@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AdminDashboardController">
+    <styleClass>
+        <String fx:value="dashboard-shell" />
+        <String fx:value="admin-shell" />
+    </styleClass>
+    <left>
+        <VBox spacing="16.0">
+            <styleClass>
+                <String fx:value="sidebar" />
+                <String fx:value="admin-sidebar" />
+            </styleClass>
+            <padding>
+                <Insets bottom="20.0" left="18.0" right="18.0" top="20.0" />
+            </padding>
+            <Label styleClass="sidebar-brand" text="Admin Hub" />
+            <Label styleClass="sidebar-copy" text="Navigate your user management workspace." wrapText="true" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#showUsersPage" styleClass="sidebar-button" text="User Info" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#showStatsPage" styleClass="sidebar-button" text="Statistics" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#showCreatePage" styleClass="sidebar-button" text="Add User" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#showModulesPage" styleClass="sidebar-button" text="Modules" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#showCourseStatisticsPage" styleClass="sidebar-button" text="Statistiques cours" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#showEvenementsPage" styleClass="sidebar-button" text="Evenements" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#showForumPage" styleClass="sidebar-button" text="Forums" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#showMessagePage" styleClass="sidebar-button" text="Messages" />
+            <VBox VBox.vgrow="ALWAYS" />
+            <Label styleClass="sidebar-foot" text="Espace administrateur" wrapText="true" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#handleProfileLogout" styleClass="secondary-button" text="Deconnexion" />
+        </VBox>
+    </left>
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="18.0">
+            <styleClass>
+                <String fx:value="topbar" />
+                <String fx:value="profile-topbar" />
+            </styleClass>
+            <VBox spacing="4.0">
+                <Label fx:id="sectionTitleLabel" styleClass="dashboard-title" text="User Registry" />
+                <Label fx:id="sectionSubtitleLabel" styleClass="dashboard-subtitle" text="Filter, inspect, edit, and remove platform users." />
+            </VBox>
+            <HBox HBox.hgrow="ALWAYS" />
+            <Button onAction="#refreshData" text="Refresh">
+                <styleClass>
+                    <String fx:value="secondary-button" />
+                    <String fx:value="compact-button" />
+                </styleClass>
+            </Button>
+            <Button onAction="#openAdminAssistant" text="AI Assistant">
+                <styleClass>
+                    <String fx:value="primary-button" />
+                    <String fx:value="compact-button" />
+                </styleClass>
+            </Button>
+            <HBox alignment="CENTER_RIGHT" spacing="10.0" styleClass="profile-chip">
+                <VBox alignment="CENTER_RIGHT" spacing="2.0">
+                    <Label styleClass="profile-caption" text="Connected User" />
+                    <Label fx:id="currentUserNameLabel" styleClass="profile-name" text="Desktop Admin" />
+                    <Label fx:id="currentUserRoleLabel" styleClass="profile-role" text="administrateur" />
+                </VBox>
+                <MenuButton fx:id="profileMenuButton" styleClass="profile-menu-button" text="DA">
+                    <items>
+                        <MenuItem onAction="#handleProfileLogout" text="Disconnect" />
+                    </items>
+                </MenuButton>
+            </HBox>
+        </HBox>
+    </top>
+    <center>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="dashboard-scroll-pane" vbarPolicy="AS_NEEDED">
+            <content>
+        <StackPane styleClass="dashboard-content">
+            <padding>
+                <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
+            </padding>
+
+            <VBox fx:id="usersSection" spacing="18.0">
+                <HBox spacing="14.0">
+                    <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <Label styleClass="stat-title" text="Total Users" />
+                        <Label fx:id="totalUsersLabel" styleClass="stat-value" text="0" />
+                    </VBox>
+                    <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <Label styleClass="stat-title" text="Students" />
+                        <Label fx:id="studentsCountLabel" styleClass="stat-value" text="0" />
+                    </VBox>
+                    <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <Label styleClass="stat-title" text="Teachers" />
+                        <Label fx:id="teachersCountLabel" styleClass="stat-value" text="0" />
+                    </VBox>
+                    <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <Label styleClass="stat-title" text="Admins" />
+                        <Label fx:id="adminsCountLabel" styleClass="stat-value" text="0" />
+                    </VBox>
+                </HBox>
+                <HBox spacing="18.0" VBox.vgrow="ALWAYS">
+                    <VBox spacing="12.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                        <styleClass>
+                            <String fx:value="panel-card" />
+                            <String fx:value="admin-main-panel" />
+                        </styleClass>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Label styleClass="panel-title" text="User Registry" />
+                            <HBox HBox.hgrow="ALWAYS" />
+                            <TextField fx:id="searchField" promptText="Search by id, name, email, role...">
+                                <styleClass>
+                                    <String fx:value="input-field" />
+                                    <String fx:value="inline-field" />
+                                </styleClass>
+                            </TextField>
+                            <ComboBox fx:id="roleFilterCombo" prefWidth="170.0" styleClass="inline-combo" />
+                        </HBox>
+                        <TableView fx:id="usersTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="idColumn" prefWidth="60.0" text="ID" />
+                                <TableColumn fx:id="fullNameColumn" prefWidth="165.0" text="Full Name" />
+                                <TableColumn fx:id="emailColumn" prefWidth="210.0" text="Email" />
+                                <TableColumn fx:id="roleColumn" prefWidth="110.0" text="Role" />
+                                <TableColumn fx:id="identifierColumn" prefWidth="140.0" text="Identifier" />
+                                <TableColumn fx:id="statusColumn" prefWidth="90.0" text="Status" />
+                                <TableColumn fx:id="lastLoginColumn" prefWidth="135.0" text="Last Login" />
+                                <TableColumn fx:id="actionsColumn" prefWidth="230.0" text="Actions" />
+                            </columns>
+                        </TableView>
+                    </VBox>
+                    <VBox spacing="14.0" HBox.hgrow="NEVER">
+                        <styleClass>
+                            <String fx:value="panel-card" />
+                            <String fx:value="details-panel" />
+                        </styleClass>
+                        <Label styleClass="panel-title" text="User Details" />
+                        <GridPane hgap="10.0" vgap="10.0">
+                            <Label styleClass="detail-key" text="Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                            <Label fx:id="detailNameLabel" styleClass="detail-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                            <Label styleClass="detail-key" text="Email" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                            <Label fx:id="detailEmailLabel" styleClass="detail-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                            <Label styleClass="detail-key" text="Role" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                            <Label fx:id="detailRoleLabel" styleClass="detail-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <Label styleClass="detail-key" text="Identifier" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                            <Label fx:id="detailIdentifierLabel" styleClass="detail-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                            <Label styleClass="detail-key" text="Status" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                            <Label fx:id="detailStatusLabel" styleClass="detail-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                            <Label styleClass="detail-key" text="Extra" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                            <Label fx:id="detailInfoLabel" styleClass="detail-value" text="-" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                            <Label styleClass="detail-key" text="Created" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                            <Label fx:id="detailCreatedLabel" styleClass="detail-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                            <Label styleClass="detail-key" text="Last Login" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                            <Label fx:id="detailLastLoginLabel" styleClass="detail-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        </GridPane>
+                        <Label styleClass="panel-title" text="Activity Feed" />
+                        <ListView fx:id="activityList" VBox.vgrow="ALWAYS" />
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <VBox fx:id="statsSection" managed="false" spacing="18.0" visible="false">
+                <HBox spacing="18.0">
+                    <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                        <styleClass>
+                            <String fx:value="hero-banner" />
+                            <String fx:value="admin-stats-banner" />
+                        </styleClass>
+                        <Label styleClass="eyebrow" text="Analytics" />
+                        <Label text="See how your user base is distributed and how active your platform feels." wrapText="true">
+                            <styleClass>
+                                <String fx:value="hero-title" />
+                                <String fx:value="small-hero" />
+                            </styleClass>
+                        </Label>
+                    </VBox>
+                </HBox>
+                <HBox spacing="18.0" VBox.vgrow="ALWAYS">
+                    <VBox spacing="10.0" styleClass="panel-card" HBox.hgrow="ALWAYS">
+                        <Label styleClass="panel-title" text="Statistics Table" />
+                        <TableView fx:id="statisticsTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="metricColumn" prefWidth="280.0" text="Metric" />
+                                <TableColumn fx:id="valueColumn" prefWidth="180.0" text="Value" />
+                            </columns>
+                        </TableView>
+                    </VBox>
+                    <VBox spacing="10.0" styleClass="panel-card" HBox.hgrow="ALWAYS">
+                        <Label styleClass="panel-title" text="Users by Role (%)" />
+                        <PieChart fx:id="usersPieChart" legendVisible="true" labelsVisible="true" VBox.vgrow="ALWAYS" />
+                    </VBox>
+                    <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                        <styleClass>
+                            <String fx:value="panel-card" />
+                            <String fx:value="side-panel" />
+                        </styleClass>
+                        <Label styleClass="panel-title" text="Users by Role Count" />
+                        <BarChart fx:id="usersRoleBarChart" animated="false" categoryGap="24.0" legendVisible="false" VBox.vgrow="ALWAYS">
+                            <xAxis>
+                                <CategoryAxis />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis forceZeroInRange="true" minorTickVisible="false" />
+                            </yAxis>
+                        </BarChart>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <VBox fx:id="createSection" fillWidth="true" managed="false" spacing="18.0" visible="false">
+                <HBox spacing="18.0">
+                    <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                        <styleClass>
+                            <String fx:value="hero-banner" />
+                            <String fx:value="create-banner" />
+                        </styleClass>
+                        <Label styleClass="eyebrow" text="Add User" />
+                        <Label text="Create admins, teachers, or students with role-specific inputs." wrapText="true">
+                            <styleClass>
+                                <String fx:value="hero-title" />
+                                <String fx:value="small-hero" />
+                            </styleClass>
+                        </Label>
+                    </VBox>
+                </HBox>
+                <VBox fillWidth="true" spacing="14.0">
+                    <styleClass>
+                        <String fx:value="panel-card" />
+                        <String fx:value="create-panel" />
+                    </styleClass>
+                    <GridPane hgap="18.0" maxWidth="1.7976931348623157E308" vgap="16.0">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="110.0" />
+                            <ColumnConstraints fillWidth="true" hgrow="ALWAYS" minWidth="240.0" prefWidth="320.0" />
+                            <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="110.0" />
+                            <ColumnConstraints fillWidth="true" hgrow="ALWAYS" minWidth="240.0" prefWidth="320.0" />
+                        </columnConstraints>
+                        <Label styleClass="detail-key" text="Role" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="createRoleCombo" maxWidth="1.7976931348623157E308" prefWidth="220.0" styleClass="input-combo" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Region GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                        <Region GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                        <Label styleClass="detail-key" text="Last Name" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <TextField fx:id="createNomField" maxWidth="1.7976931348623157E308" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label styleClass="detail-key" text="First Name" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <TextField fx:id="createPrenomField" maxWidth="1.7976931348623157E308" styleClass="input-field" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Label styleClass="detail-key" text="Email" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <TextField fx:id="createEmailField" maxWidth="1.7976931348623157E308" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label styleClass="detail-key" text="Password" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <TextField fx:id="createPasswordField" maxWidth="1.7976931348623157E308" styleClass="input-field" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <Label fx:id="createIdentifierLabel" styleClass="detail-key" text="Identifier" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <StackPane maxWidth="1.7976931348623157E308" styleClass="form-control-wrapper" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                            <TextField fx:id="createIdentifierField" maxWidth="1.7976931348623157E308" styleClass="input-field" />
+                            <ComboBox fx:id="createIdentifierCombo" managed="false" maxWidth="1.7976931348623157E308" prefWidth="1.7976931348623157E308" styleClass="input-combo" visible="false" />
+                        </StackPane>
+                        <Label fx:id="createFieldOneLabel" styleClass="detail-key" text="Field 1" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <StackPane maxWidth="1.7976931348623157E308" styleClass="form-control-wrapper" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                            <TextField fx:id="createFieldOneField" maxWidth="1.7976931348623157E308" styleClass="input-field" />
+                            <ComboBox fx:id="createFieldOneCombo" managed="false" maxWidth="1.7976931348623157E308" prefWidth="1.7976931348623157E308" styleClass="input-combo" visible="false" />
+                        </StackPane>
+                        <Label fx:id="createFieldTwoLabel" styleClass="detail-key" text="Field 2" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <StackPane maxWidth="1.7976931348623157E308" styleClass="form-control-wrapper" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                            <TextField fx:id="createFieldTwoField" maxWidth="1.7976931348623157E308" styleClass="input-field" />
+                            <ComboBox fx:id="createFieldTwoCombo" managed="false" maxWidth="1.7976931348623157E308" prefWidth="1.7976931348623157E308" styleClass="input-combo" visible="false" />
+                        </StackPane>
+                        <Label fx:id="createFieldThreeLabel" styleClass="detail-key" text="Field 3" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <StackPane maxWidth="1.7976931348623157E308" styleClass="form-control-wrapper" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                            <TextField fx:id="createFieldThreeField" maxWidth="1.7976931348623157E308" styleClass="input-field" />
+                            <ComboBox fx:id="createFieldThreeCombo" managed="false" maxWidth="1.7976931348623157E308" prefWidth="1.7976931348623157E308" styleClass="input-combo" visible="false" />
+                        </StackPane>
+                        <Label fx:id="createFieldFourLabel" styleClass="detail-key" text="Field 4" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                        <StackPane maxWidth="1.7976931348623157E308" styleClass="form-control-wrapper" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                            <TextField fx:id="createFieldFourField" maxWidth="1.7976931348623157E308" styleClass="input-field" />
+                            <ComboBox fx:id="createFieldFourCombo" managed="false" maxWidth="1.7976931348623157E308" prefWidth="1.7976931348623157E308" styleClass="input-combo" visible="false" />
+                        </StackPane>
+                        <Label fx:id="createDateLabel" styleClass="detail-key" text="Date" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <DatePicker fx:id="createDatePicker" maxWidth="1.7976931348623157E308" styleClass="input-date-picker" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                        <Label fx:id="createAreaLabel" styleClass="detail-key" text="Extra Info" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                        <TextArea fx:id="createAreaField" maxWidth="1.7976931348623157E308" prefRowCount="4" styleClass="input-area" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="6" />
+                    </GridPane>
+                    <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                        <Label fx:id="createStatusLabel" text="" HBox.hgrow="ALWAYS" wrapText="true">
+                            <styleClass>
+                                <String fx:value="status-label" />
+                                <String fx:value="neutral-status" />
+                            </styleClass>
+                        </Label>
+                        <Button fx:id="createBackButton" disable="true" onAction="#cancelEditMode" text="Back to New User">
+                            <styleClass>
+                                <String fx:value="secondary-button" />
+                                <String fx:value="compact-button" />
+                            </styleClass>
+                        </Button>
+                        <Button fx:id="createClearButton" onAction="#resetCreateFormView" text="Reset Form">
+                            <styleClass>
+                                <String fx:value="secondary-button" />
+                                <String fx:value="compact-button" />
+                            </styleClass>
+                        </Button>
+                        <Button fx:id="createSubmitButton" onAction="#createUser" text="Create User">
+                            <styleClass>
+                                <String fx:value="primary-button" />
+                                <String fx:value="compact-button" />
+                            </styleClass>
+                        </Button>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <VBox fx:id="modulesSection" managed="false" spacing="18.0" visible="false">
+                <VBox spacing="10.0">
+                    <styleClass>
+                        <String fx:value="hero-banner" />
+                        <String fx:value="admin-stats-banner" />
+                    </styleClass>
+                    <Label styleClass="eyebrow" text="Modules" />
+                    <Label text="Centralized access to modules, courses, and pedagogical content." wrapText="true">
+                        <styleClass>
+                            <String fx:value="hero-title" />
+                            <String fx:value="small-hero" />
+                        </styleClass>
+                    </Label>
+                </VBox>
+                <StackPane fx:id="modulesContentPane" VBox.vgrow="ALWAYS" />
+            </VBox>
+
+            <VBox fx:id="courseStatisticsSection" managed="false" spacing="18.0" visible="false">
+                <VBox spacing="10.0">
+                    <styleClass>
+                        <String fx:value="hero-banner" />
+                        <String fx:value="admin-stats-banner" />
+                    </styleClass>
+                    <Label styleClass="eyebrow" text="Cours" />
+                    <Label text="Indicateurs des cours et modules dans un espace dedie a l'analyse pedagogique." wrapText="true">
+                        <styleClass>
+                            <String fx:value="hero-title" />
+                            <String fx:value="small-hero" />
+                        </styleClass>
+                    </Label>
+                </VBox>
+                <StackPane fx:id="courseStatisticsContentPane" VBox.vgrow="ALWAYS" />
+            </VBox>
+
+            <VBox fx:id="evenementsSection" managed="false" spacing="18.0" visible="false">
+                <VBox spacing="10.0">
+                    <styleClass>
+                        <String fx:value="hero-banner" />
+                        <String fx:value="admin-stats-banner" />
+                    </styleClass>
+                    <Label styleClass="eyebrow" text="Evenements" />
+                    <Label text="Access the evenement branch functionality inside the current admin template." wrapText="true">
+                        <styleClass>
+                            <String fx:value="hero-title" />
+                            <String fx:value="small-hero" />
+                        </styleClass>
+                    </Label>
+                </VBox>
+                <StackPane fx:id="evenementsContentPane" VBox.vgrow="ALWAYS" />
+            </VBox>
+
+            <VBox fx:id="forumSection" managed="false" spacing="18.0" visible="false">
+                <VBox spacing="10.0">
+                    <styleClass>
+                        <String fx:value="hero-banner" />
+                        <String fx:value="admin-stats-banner" />
+                    </styleClass>
+                    <Label styleClass="eyebrow" text="Forums" />
+                    <Label text="Forum work imported from dev-ahmed and aligned with the current admin template." wrapText="true">
+                        <styleClass>
+                            <String fx:value="hero-title" />
+                            <String fx:value="small-hero" />
+                        </styleClass>
+                    </Label>
+                </VBox>
+                <StackPane fx:id="forumContentPane" VBox.vgrow="ALWAYS" />
+            </VBox>
+
+            <VBox fx:id="messageSection" managed="false" spacing="18.0" visible="false">
+                <VBox spacing="10.0">
+                    <styleClass>
+                        <String fx:value="hero-banner" />
+                        <String fx:value="admin-stats-banner" />
+                    </styleClass>
+                    <Label styleClass="eyebrow" text="Messages" />
+                    <Label text="Messaging work imported from dev-ahmed and embedded into the current admin dashboard." wrapText="true">
+                        <styleClass>
+                            <String fx:value="hero-title" />
+                            <String fx:value="small-hero" />
+                        </styleClass>
+                    </Label>
+                </VBox>
+                <StackPane fx:id="messageContentPane" VBox.vgrow="ALWAYS" />
+            </VBox>
+        </StackPane>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

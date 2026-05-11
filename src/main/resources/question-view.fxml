@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.QuestionController"
+            styleClass="dashboard-shell teacher-shell">
+
+    <!-- ═══ SIDEBAR ═══════════════════════════════════════════════ -->
+    <left>
+        <VBox spacing="16.0" styleClass="sidebar">
+            <padding><Insets bottom="20.0" left="18.0" right="18.0" top="20.0"/></padding>
+            <Label styleClass="sidebar-brand" text="Questions"/>
+            <Label styleClass="sidebar-copy"
+                   text="Gérez les questions et réponses de ce quiz." wrapText="true"/>
+            <Separator opacity="0.15"/>
+            <Button maxWidth="Infinity" onAction="#showQuizListPage"
+                    styleClass="sidebar-button" text="← Retour aux quiz">
+                <tooltip><Tooltip text="Fermer et retourner à la liste des quiz"/></tooltip>
+            </Button>
+            <Button maxWidth="Infinity" onAction="#showQuestionCreateForm"
+                    styleClass="sidebar-button" text="➕  Nouvelle question">
+                <tooltip><Tooltip text="Ajouter une question à ce quiz"/></tooltip>
+            </Button>
+            <VBox VBox.vgrow="ALWAYS"/>
+            <Separator opacity="0.15"/>
+            <Label styleClass="sidebar-foot" text="Gestion pédagogique · Campus Access" wrapText="true"/>
+        </VBox>
+    </left>
+
+    <!-- ═══ TOPBAR ════════════════════════════════════════════════ -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="18.0" styleClass="topbar profile-topbar">
+            <VBox spacing="4.0">
+                <Label fx:id="sectionTitleLabel" styleClass="dashboard-title" text="Questions"/>
+                <Label fx:id="sectionSubtitleLabel" styleClass="dashboard-subtitle"
+                       text="Gérez les questions et réponses de ce quiz."/>
+            </VBox>
+            <HBox HBox.hgrow="ALWAYS"/>
+            <HBox alignment="CENTER_RIGHT" spacing="10.0" styleClass="profile-chip">
+                <VBox alignment="CENTER_RIGHT" spacing="2.0">
+                    <Label fx:id="currentUserNameLabel" styleClass="profile-name" text="Enseignant"/>
+                    <Label fx:id="currentUserRoleLabel" styleClass="profile-role" text="enseignant"/>
+                </VBox>
+                <MenuButton fx:id="profileMenuButton" styleClass="profile-menu-button" text="EN">
+                    <items>
+                        <MenuItem onAction="#showQuizListPage" text="Fermer"/>
+                    </items>
+                </MenuButton>
+            </HBox>
+        </HBox>
+    </top>
+
+    <!-- ═══ CENTRE ════════════════════════════════════════════════ -->
+    <center>
+        <StackPane styleClass="dashboard-content">
+            <padding><Insets bottom="22.0" left="22.0" right="22.0" top="22.0"/></padding>
+
+            <!-- ══════════════════════════════════════════════════════
+                 PAGE 1 : LISTE DES QUESTIONS
+                 ══════════════════════════════════════════════════════ -->
+            <VBox fx:id="questionsSection" spacing="18.0">
+
+                <HBox spacing="18.0">
+                    <VBox spacing="10.0" styleClass="hero-banner teacher-banner" HBox.hgrow="ALWAYS">
+                        <Label styleClass="eyebrow" text="Questions du quiz"/>
+                        <Label fx:id="questionsSectionTitleLabel" styleClass="hero-title small-hero"
+                               text="Questions" wrapText="true"/>
+                        <Label fx:id="questionsSectionSubtitleLabel" styleClass="hero-copy"
+                               text="Ajoutez, modifiez ou supprimez les questions de ce quiz." wrapText="true"/>
+                    </VBox>
+                    <VBox alignment="CENTER_RIGHT" spacing="10.0">
+                        <Button onAction="#showQuestionCreateForm"
+                                styleClass="primary-button compact-button" text="➕  Nouvelle question">
+                            <tooltip><Tooltip text="Ajouter une question"/></tooltip>
+                        </Button>
+                        <Button onAction="#showQuizListPage"
+                                styleClass="secondary-button compact-button" text="← Retour quiz">
+                            <tooltip><Tooltip text="Retourner à la liste des quiz"/></tooltip>
+                        </Button>
+                        <Label fx:id="questionsMessageLabel"
+                               styleClass="status-label neutral-status" text="" wrapText="true"/>
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="18.0" VBox.vgrow="ALWAYS">
+
+                    <!-- Table des questions -->
+                    <VBox spacing="10.0" styleClass="panel-card modules-list-panel"
+                          HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                        <Label styleClass="panel-title" text="Liste des questions"/>
+                        <TableView fx:id="questionsTable" VBox.vgrow="ALWAYS">
+                            <placeholder>
+                                <VBox alignment="CENTER" spacing="8.0" style="-fx-padding:40;">
+                                    <Label text="Aucune question pour ce quiz."
+                                           style="-fx-font-size:14px; -fx-font-weight:700; -fx-text-fill:#475569;"/>
+                                    <Label text="Cliquez sur « Nouvelle question » pour commencer."
+                                           style="-fx-font-size:13px; -fx-text-fill:#94a3b8;"/>
+                                </VBox>
+                            </placeholder>
+                            <columns>
+                                <TableColumn fx:id="qOrdreColumn"   prefWidth="60.0"  text="#"/>
+                                <TableColumn fx:id="qTexteColumn"   prefWidth="300.0" text="Énoncé"/>
+                                <TableColumn fx:id="qTypeColumn"    prefWidth="140.0" text="Type"/>
+                                <TableColumn fx:id="qPointsColumn"  prefWidth="80.0"  text="Points"/>
+                                <TableColumn fx:id="qActionsColumn" prefWidth="220.0" text="Actions"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+
+                    <!-- Panneau détail question -->
+                    <VBox fx:id="questionDetailsPanel" managed="false" visible="false"
+                          spacing="14.0" styleClass="panel-card modules-detail-panel">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Label styleClass="panel-title" text="Fiche question"/>
+                            <HBox HBox.hgrow="ALWAYS"/>
+                            <Button onAction="#closeQuestionDetails"
+                                    styleClass="detail-close-button" text="✕">
+                                <tooltip><Tooltip text="Fermer le panneau"/></tooltip>
+                            </Button>
+                        </HBox>
+
+                        <VBox spacing="8.0" styleClass="detail-hero-card">
+                            <Label fx:id="detailQuestionTexteLabel" styleClass="detail-hero-title"
+                                   text="Aucune question sélectionnée" wrapText="true"/>
+                            <Label fx:id="detailQuestionMetaLabel" styleClass="detail-hero-meta"
+                                   text="Type · Points" wrapText="true"/>
+                        </VBox>
+
+                        <Label styleClass="panel-title" text="Réponses"/>
+                        <ScrollPane fitToWidth="true" styleClass="form-scroll-pane" prefHeight="200.0">
+                            <content>
+                                <VBox fx:id="detailReponsesContainer" spacing="8.0">
+                                    <padding><Insets right="4.0"/></padding>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+
+                        <Label fx:id="detailQuestionExplicationLabel"
+                               styleClass="sidebar-copy" text="" wrapText="true"/>
+
+                        <Separator opacity="0.4"/>
+
+                        <HBox spacing="8.0">
+                            <Button onAction="#editSelectedQuestion"
+                                    styleClass="secondary-button compact-button" text="✏  Modifier">
+                                <tooltip><Tooltip text="Modifier cette question"/></tooltip>
+                            </Button>
+                            <Button onAction="#manageReponsesOfSelectedQuestion"
+                                    styleClass="primary-button compact-button" text="💬  Réponses">
+                                <tooltip><Tooltip text="Gérer les réponses"/></tooltip>
+                            </Button>
+                            <Button onAction="#deleteSelectedQuestion"
+                                    styleClass="danger-button compact-button" text="🗑  Supprimer">
+                                <tooltip><Tooltip text="Supprimer cette question"/></tooltip>
+                            </Button>
+                        </HBox>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- ══════════════════════════════════════════════════════
+                 PAGE 2 : FORMULAIRE QUESTION
+                 ══════════════════════════════════════════════════════ -->
+            <VBox fx:id="questionFormSection" managed="false" visible="false" spacing="20.0">
+
+                <VBox spacing="6.0" styleClass="hero-banner create-banner">
+                    <padding><Insets bottom="20.0" left="24.0" right="24.0" top="20.0"/></padding>
+                    <Label styleClass="eyebrow" text="Édition question"/>
+                    <Label fx:id="questionFormTitleLabel" styleClass="hero-title small-hero"
+                           text="Nouvelle question" wrapText="true"/>
+                    <Label styleClass="hero-copy"
+                           text="Rédigez la question, définissez les réponses et enregistrez." wrapText="true"/>
+                </VBox>
+
+                <ScrollPane fitToWidth="true" styleClass="form-scroll-pane" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox spacing="20.0">
+                            <padding><Insets bottom="10.0" right="4.0"/></padding>
+
+                            <!-- ── Contenu de la question ── -->
+                            <VBox spacing="16.0" styleClass="panel-card">
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <Label styleClass="icon-label" text="❓"/>
+                                    <Label text="Contenu de la question" styleClass="panel-title"/>
+                                </HBox>
+                                <Separator opacity="0.3"/>
+
+                                <VBox spacing="6.0">
+                                    <Label styleClass="detail-key" text="Énoncé *"/>
+                                    <TextArea fx:id="questionTexteArea" prefRowCount="4"
+                                              promptText="Rédigez l'énoncé de la question..."
+                                              wrapText="true"/>
+                                    <Label fx:id="questionTexteErrorLabel"
+                                           styleClass="field-error-label" text="" wrapText="true"/>
+                                </VBox>
+
+                                <VBox spacing="6.0">
+                                    <Label styleClass="detail-key" text="Explication (affichée après correction)"/>
+                                    <TextArea fx:id="questionExplicationArea" prefRowCount="3"
+                                              promptText="Optionnel : explication affichée après correction..."
+                                              wrapText="true"/>
+                                </VBox>
+                            </VBox>
+
+                            <!-- ── Paramètres ── -->
+                            <VBox spacing="16.0" styleClass="panel-card">
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <Label styleClass="icon-label" text="⚙️"/>
+                                    <Label text="Paramètres" styleClass="panel-title"/>
+                                </HBox>
+                                <Separator opacity="0.3"/>
+
+                                <HBox spacing="16.0">
+                                    <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                        <Label styleClass="detail-key" text="Type de question *"/>
+                                        <ComboBox fx:id="questionTypeCombo" maxWidth="Infinity"
+                                                  promptText="Choisissez un type"/>
+                                        <Label fx:id="questionTypeErrorLabel"
+                                               styleClass="field-error-label" text="" wrapText="true"/>
+                                    </VBox>
+                                    <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                        <Label styleClass="detail-key" text="Points *"/>
+                                        <Spinner fx:id="questionPointsSpinner"
+                                                 min="1" max="100" initialValue="1"
+                                                 editable="true" maxWidth="Infinity"/>
+                                    </VBox>
+                                    <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                        <Label styleClass="detail-key" text="Ordre d'affichage"/>
+                                        <Spinner fx:id="questionOrdreSpinner"
+                                                 min="1" max="999" initialValue="1"
+                                                 editable="true" maxWidth="Infinity"/>
+                                    </VBox>
+                                </HBox>
+
+                                <!-- Hint contextuel selon le type -->
+                                <Label fx:id="questionTypeHintLabel"
+                                       styleClass="status-label neutral-status"
+                                       text="" wrapText="true"
+                                       style="-fx-padding: 8 12 8 12; -fx-background-radius: 6;"/>
+                            </VBox>
+
+                            <!-- ══════════════════════════════════════════
+                                 SECTION DYNAMIQUE DES RÉPONSES
+                                 Affichée uniquement quand un type est choisi
+                                 ══════════════════════════════════════════ -->
+
+                            <!-- ── VRAI / FAUX ── -->
+                            <VBox fx:id="reponsesVraiFauxPanel" managed="false" visible="false"
+                                  spacing="14.0" styleClass="panel-card">
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <Label styleClass="icon-label" text="✅"/>
+                                    <Label text="Bonne réponse" styleClass="panel-title"/>
+                                </HBox>
+                                <Separator opacity="0.3"/>
+                                <Label styleClass="detail-key"
+                                       text="Sélectionnez la réponse correcte :"/>
+                                <HBox spacing="24.0" alignment="CENTER_LEFT">
+                                    <RadioButton fx:id="vraiFauxVraiRadio" text="  Vrai">
+                                        <toggleGroup><ToggleGroup fx:id="vraiFauxGroup"/></toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="vraiFauxFauxRadio" text="  Faux"
+                                                 toggleGroup="$vraiFauxGroup"/>
+                                </HBox>
+                                <Label fx:id="vraiFauxErrorLabel"
+                                       styleClass="field-error-label" text="" wrapText="true"/>
+                            </VBox>
+
+                            <!-- ── CHOIX UNIQUE ── -->
+                            <VBox fx:id="reponsesChoixUniquePanel" managed="false" visible="false"
+                                  spacing="14.0" styleClass="panel-card">
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <Label styleClass="icon-label" text="🔘"/>
+                                    <Label text="Réponses — Choix unique" styleClass="panel-title"/>
+                                </HBox>
+                                <Separator opacity="0.3"/>
+                                <Label styleClass="detail-key"
+                                       text="Saisissez les réponses et sélectionnez la correcte (●) :"/>
+
+                                <!-- Conteneur des lignes réponse choix unique (géré dynamiquement) -->
+                                <VBox fx:id="choixUniqueReponsesContainer" spacing="8.0"/>
+
+                                <HBox spacing="10.0">
+                                    <Button onAction="#addChoixUniqueRow"
+                                            styleClass="secondary-button compact-button"
+                                            text="＋  Ajouter une réponse"/>
+                                </HBox>
+                                <Label fx:id="choixUniqueErrorLabel"
+                                       styleClass="field-error-label" text="" wrapText="true"/>
+                            </VBox>
+
+                            <!-- ── CHOIX MULTIPLE ── -->
+                            <VBox fx:id="reponsesChoixMultiplePanel" managed="false" visible="false"
+                                  spacing="14.0" styleClass="panel-card">
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <Label styleClass="icon-label" text="☑"/>
+                                    <Label text="Réponses — Choix multiple" styleClass="panel-title"/>
+                                </HBox>
+                                <Separator opacity="0.3"/>
+                                <Label styleClass="detail-key"
+                                       text="Saisissez les réponses et cochez les correctes (☑) :"/>
+
+                                <!-- Conteneur des lignes réponse choix multiple (géré dynamiquement) -->
+                                <VBox fx:id="choixMultipleReponsesContainer" spacing="8.0"/>
+
+                                <HBox spacing="10.0">
+                                    <Button onAction="#addChoixMultipleRow"
+                                            styleClass="secondary-button compact-button"
+                                            text="＋  Ajouter une réponse"/>
+                                </HBox>
+                                <Label fx:id="choixMultipleErrorLabel"
+                                       styleClass="field-error-label" text="" wrapText="true"/>
+                            </VBox>
+
+                            <!-- ── TEXTE LIBRE ── -->
+                            <VBox fx:id="reponsesTexteLibrePanel" managed="false" visible="false"
+                                  spacing="14.0" styleClass="panel-card">
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <Label styleClass="icon-label" text="✏️"/>
+                                    <Label text="Réponse attendue — Texte libre" styleClass="panel-title"/>
+                                </HBox>
+                                <Separator opacity="0.3"/>
+                                <Label styleClass="detail-key"
+                                       text="Saisissez la réponse correcte de référence :"/>
+                                <TextArea fx:id="texteLibreReponseArea" prefRowCount="3"
+                                          promptText="Réponse correcte de référence (utilisée pour la correction)..."
+                                          wrapText="true"/>
+                                <Label fx:id="texteLibreErrorLabel"
+                                       styleClass="field-error-label" text="" wrapText="true"/>
+                            </VBox>
+
+                            <!-- ── Barre d'action ── -->
+                            <HBox alignment="CENTER_RIGHT" spacing="12.0"
+                                  style="-fx-padding: 4 0 8 0;">
+                                <Label fx:id="questionFormStatusLabel"
+                                       styleClass="status-label neutral-status"
+                                       text="" HBox.hgrow="ALWAYS" wrapText="true"/>
+                                <Button onAction="#cancelQuestionForm"
+                                        styleClass="secondary-button compact-button"
+                                        text="← Retour questions"/>
+                                <Button onAction="#saveQuestion"
+                                        styleClass="primary-button compact-button"
+                                        text="💾  Enregistrer"/>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </VBox>
+
+            <!-- ══════════════════════════════════════════════════════
+                 PAGE 3 : RÉPONSES
+                 ══════════════════════════════════════════════════════ -->
+            <VBox fx:id="reponsesSection" managed="false" visible="false" spacing="18.0">
+
+                <HBox spacing="18.0">
+                    <VBox spacing="10.0" styleClass="hero-banner teacher-banner" HBox.hgrow="ALWAYS">
+                        <Label styleClass="eyebrow" text="Réponses"/>
+                        <Label fx:id="reponsesSectionTitleLabel" styleClass="hero-title small-hero"
+                               text="Réponses de la question" wrapText="true"/>
+                        <Label fx:id="reponsesSectionSubtitleLabel" styleClass="hero-copy"
+                               text="Ajoutez les réponses et marquez la ou les correctes." wrapText="true"/>
+                    </VBox>
+                    <VBox alignment="CENTER_RIGHT" spacing="10.0">
+                        <Button onAction="#backToQuestionsFromReponses"
+                                styleClass="secondary-button compact-button" text="← Retour questions"/>
+                        <Button onAction="#showReponseCreateForm"
+                                styleClass="primary-button compact-button" text="➕  Nouvelle réponse"/>
+                        <Label fx:id="reponsesMessageLabel"
+                               styleClass="status-label neutral-status" text="" wrapText="true"/>
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="18.0" VBox.vgrow="ALWAYS">
+                    <VBox spacing="10.0" styleClass="panel-card modules-list-panel"
+                          HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                        <Label styleClass="panel-title" text="Liste des réponses"/>
+                        <TableView fx:id="reponsesTable" VBox.vgrow="ALWAYS">
+                            <placeholder>
+                                <VBox alignment="CENTER" spacing="8.0" style="-fx-padding:40;">
+                                    <Label text="Aucune réponse pour cette question."
+                                           style="-fx-font-size:14px; -fx-font-weight:700; -fx-text-fill:#475569;"/>
+                                    <Label text="Cliquez sur « Nouvelle réponse » pour commencer."
+                                           style="-fx-font-size:13px; -fx-text-fill:#94a3b8;"/>
+                                </VBox>
+                            </placeholder>
+                            <columns>
+                                <TableColumn fx:id="rOrdreColumn"    prefWidth="60.0"  text="#"/>
+                                <TableColumn fx:id="rTexteColumn"    prefWidth="300.0" text="Texte réponse"/>
+                                <TableColumn fx:id="rCorrecteColumn" prefWidth="100.0" text="Correcte"/>
+                                <TableColumn fx:id="rFeedbackColumn" prefWidth="180.0" text="Feedback"/>
+                                <TableColumn fx:id="rActionsColumn"  prefWidth="120.0" text="Actions"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+
+                    <VBox fx:id="reponseFormPanel" managed="false" visible="false"
+                          spacing="14.0" styleClass="panel-card modules-detail-panel">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Label fx:id="reponseFormTitleLabel" styleClass="panel-title" text="Nouvelle réponse"/>
+                            <HBox HBox.hgrow="ALWAYS"/>
+                            <Button onAction="#closeReponseForm" styleClass="detail-close-button" text="✕"/>
+                        </HBox>
+                        <VBox spacing="6.0">
+                            <Label styleClass="detail-key" text="Texte de la réponse *"/>
+                            <TextArea fx:id="reponseTexteArea" prefRowCount="4"
+                                      promptText="Saisissez le texte de la réponse..."
+                                      wrapText="true"/>
+                            <Label fx:id="reponseTexteErrorLabel"
+                                   styleClass="field-error-label" text="" wrapText="true"/>
+                        </VBox>
+                        <CheckBox fx:id="reponseCorrecteCheck"
+                                  styleClass="correct-answer-check"
+                                  text="  Cette réponse est correcte"/>
+                        <Separator opacity="0.3"/>
+                        <HBox spacing="16.0">
+                            <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                <Label styleClass="detail-key" text="Ordre d'affichage"/>
+                                <Spinner fx:id="reponseOrdreSpinner" min="1" max="99"
+                                         initialValue="1" editable="true" maxWidth="Infinity"/>
+                                <Label fx:id="reponseOrdreErrorLabel"
+                                       styleClass="field-error-label" text="" wrapText="true"/>
+                            </VBox>
+                        </HBox>
+                        <VBox spacing="6.0">
+                            <Label styleClass="detail-key" text="Feedback spécifique (optionnel)"/>
+                            <TextArea fx:id="reponseFeedbackArea" prefRowCount="3"
+                                      promptText="Message affiché si cette réponse est choisie..."
+                                      wrapText="true"/>
+                            <Label fx:id="reponseFeedbackErrorLabel"
+                                   styleClass="field-error-label" text="" wrapText="true"/>
+                        </VBox>
+                        <VBox spacing="6.0">
+                            <Label styleClass="detail-key" text="URL média (optionnel)"/>
+                            <TextField fx:id="reponseMediaUrlField"
+                                       promptText="https://..." styleClass="input-field"/>
+                        </VBox>
+                        <Label fx:id="reponseFormStatusLabel"
+                               styleClass="status-label neutral-status" text="" wrapText="true"/>
+                        <HBox spacing="10.0">
+                            <Button onAction="#closeReponseForm"
+                                    styleClass="secondary-button compact-button" text="Annuler"/>
+                            <Button onAction="#saveReponse"
+                                    styleClass="primary-button compact-button" text="💾  Enregistrer"/>
+                        </HBox>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+        </StackPane>
+    </center>
+</BorderPane>

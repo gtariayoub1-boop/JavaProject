@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ParticipationFormController">
+    <stylesheets>
+        <URL value="@../style.css" />
+    </stylesheets>
+
+    <ScrollPane fitToWidth="true" styleClass="scroll-pane" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <content>
+            <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="dashboard-content" maxWidth="800">
+                <padding>
+                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                </padding>
+
+                <Label text="Inscription à l'Événement" styleClass="auth-hero-title" />
+                <Label fx:id="lblEventInfo" text="Événement: ..." styleClass="auth-hero-copy" />
+
+                <GridPane hgap="15" vgap="15" alignment="CENTER" styleClass="form-container">
+                    <Label text="Nom:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="form-label" />
+                    <TextField fx:id="nomField" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="input-field" prefWidth="400" />
+
+                    <Label text="Prénom:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="form-label" />
+                    <TextField fx:id="prenomField" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="input-field" prefWidth="400" />
+
+                    <Label text="Téléphone:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="form-label" />
+                    <TextField fx:id="telField" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="input-field" prefWidth="400" />
+
+                    <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="form-label" />
+                    <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="input-field" prefWidth="400" />
+
+                    <Label text="Année Scolaire:" GridPane.columnIndex="0" GridPane.rowIndex="4" styleClass="form-label" />
+                    <TextField fx:id="anneeField" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="input-field" prefWidth="400" />
+
+                    <Label text="Description (Optionnel):" GridPane.columnIndex="0" GridPane.rowIndex="5" styleClass="form-label" />
+                    <VBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <TextArea fx:id="descriptionField" prefWidth="400" prefHeight="150" wrapText="true" styleClass="input-area" />
+                        <Button onAction="#handleAI" text="✨ Générer par IA" styleClass="button" />
+                    </VBox>
+
+                    <Label text="Météo prévue:" GridPane.columnIndex="0" GridPane.rowIndex="6" styleClass="form-label" />
+                    <Label fx:id="weatherLabel" text="Chargement..." GridPane.columnIndex="1" GridPane.rowIndex="6" styleClass="status-label" />
+                </GridPane>
+
+                <HBox spacing="20" alignment="CENTER">
+                    <Button text="Confirmer la Participation" onAction="#handleSave" styleClass="primary-button" prefHeight="45" />
+                    <Button text="Annuler" onAction="#handleCancel" styleClass="danger-button" prefHeight="45" />
+                </HBox>
+            </VBox>
+        </content>
+    </ScrollPane>
+</AnchorPane>

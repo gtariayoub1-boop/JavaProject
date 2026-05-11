@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MessageDashboardController" spacing="18.0">
+    <VBox spacing="8.0">
+        <styleClass>
+            <String fx:value="hero-banner" />
+            <String fx:value="student-banner" />
+        </styleClass>
+        <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <VBox HBox.hgrow="ALWAYS" spacing="4.0">
+                <Label styleClass="eyebrow" text="Messagerie" />
+                <Label fx:id="pageTitleLabel" text="Messagerie" wrapText="true">
+                    <styleClass>
+                        <String fx:value="hero-title" />
+                        <String fx:value="small-hero" />
+                    </styleClass>
+                </Label>
+                <Label fx:id="pageSubtitleLabel" styleClass="hero-copy" text="Envoyez et consultez vos messages dans le meme design que le reste du projet." wrapText="true" />
+            </VBox>
+            <Label fx:id="roleBadgeLabel" styleClass="badge badge-warning" text="ROLE" />
+        </HBox>
+    </VBox>
+
+    <HBox spacing="14.0">
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <Label styleClass="stat-title" text="Expediteur connecte" />
+            <Label fx:id="senderInfoLabel" styleClass="card-value" text="-" wrapText="true" />
+        </VBox>
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <Label styleClass="stat-title" text="Module" />
+            <Label styleClass="card-value" text="Messagerie importee et adaptee a vos dashboards" wrapText="true" />
+        </VBox>
+    </HBox>
+
+    <HBox spacing="18.0" VBox.vgrow="ALWAYS">
+        <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+            <styleClass>
+                <String fx:value="panel-card" />
+                <String fx:value="modules-list-panel" />
+            </styleClass>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Label styleClass="panel-title" text="Messages" />
+                <HBox HBox.hgrow="ALWAYS" />
+                <Button onAction="#handleRefresh" styleClass="secondary-button compact-button" text="Actualiser" />
+            </HBox>
+            <TableView fx:id="messageTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="idColumn" prefWidth="60.0" text="ID" />
+                    <TableColumn fx:id="directionColumn" prefWidth="100.0" text="Sens" />
+                    <TableColumn fx:id="contactColumn" prefWidth="190.0" text="Contact" />
+                    <TableColumn fx:id="subjectColumn" prefWidth="210.0" text="Objet" />
+                    <TableColumn fx:id="priorityColumn" prefWidth="90.0" text="Priorite" />
+                    <TableColumn fx:id="statutColumn" prefWidth="90.0" text="Statut" />
+                    <TableColumn fx:id="dateColumn" prefWidth="150.0" text="Date" />
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox spacing="14.0" HBox.hgrow="ALWAYS">
+            <styleClass>
+                <String fx:value="panel-card" />
+                <String fx:value="details-panel" />
+            </styleClass>
+            <Label styleClass="panel-title" text="Composer / modifier" />
+            <VBox spacing="6.0" styleClass="info-card">
+                <Label fx:id="detailSubjectLabel" styleClass="detail-hero-title" text="Selectionnez un message" wrapText="true" />
+                <Label fx:id="detailMetaLabel" styleClass="detail-hero-meta" text="-" wrapText="true" />
+                <Label fx:id="detailAttachmentLabel" styleClass="detail-hero-meta" text="Aucune piece jointe" wrapText="true" />
+                <Label fx:id="detailParentLabel" styleClass="detail-hero-meta" text="Aucun fil parent" wrapText="true" />
+            </VBox>
+            <GridPane hgap="14.0" vgap="12.0">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="110.0" />
+                    <ColumnConstraints hgrow="ALWAYS" />
+                </columnConstraints>
+                <Label styleClass="detail-key" text="Destinataire" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <ComboBox fx:id="recipientCombo" styleClass="input-combo" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Label styleClass="detail-key" text="Objet" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="subjectField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label styleClass="detail-key" text="Contenu" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextArea fx:id="contentArea" prefRowCount="5" styleClass="input-area" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label styleClass="detail-key" text="Priorite" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <ComboBox fx:id="priorityCombo" styleClass="input-combo" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Label styleClass="detail-key" text="Categorie" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <ComboBox fx:id="categoryCombo" styleClass="input-combo" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Label styleClass="detail-key" text="Statut" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                <ComboBox fx:id="statutCombo" styleClass="input-combo" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Label styleClass="detail-key" text="Piece jointe" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                <TextField fx:id="attachmentField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                <Label styleClass="detail-key" text="Parent ID" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                <TextField fx:id="parentIdField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            </GridPane>
+            <Label fx:id="statusLabel" text="" wrapText="true">
+                <styleClass>
+                    <String fx:value="status-label" />
+                    <String fx:value="neutral-status" />
+                </styleClass>
+            </Label>
+            <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                <Button onAction="#handleClearForm" styleClass="secondary-button compact-button" text="Vider" />
+                <Button fx:id="markReadButton" disable="true" onAction="#handleMarkRead" styleClass="secondary-button compact-button" text="Marquer lu" />
+                <Button fx:id="deleteButton" onAction="#handleDeleteMessage" styleClass="danger-button compact-button" text="Supprimer" />
+                <Button fx:id="saveButton" onAction="#handleSaveMessage" styleClass="primary-button compact-button" text="Envoyer / Mettre a jour" />
+            </HBox>
+            <VBox VBox.vgrow="ALWAYS" />
+        </VBox>
+    </HBox>
+    <padding>
+        <Insets bottom="8.0" left="0.0" right="0.0" top="0.0" />
+    </padding>
+</VBox>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.EvaluationListController"
+            styleClass="content-shell">
+    <top>
+        <VBox spacing="18.0" BorderPane.alignment="CENTER">
+            <children>
+                <VBox styleClass="content-header teacher-content-header">
+                    <Label styleClass="content-title" text="Mes evaluations" />
+                    <Label styleClass="content-copy" text="Retrouvez vos evaluations, gerez les echeances et ouvrez les corrections depuis une interface modulaire." wrapText="true" />
+                </VBox>
+                <HBox alignment="CENTER_LEFT" styleClass="filter-bar">
+                    <TextField fx:id="searchField" promptText="Rechercher par titre, type, cours ou statut" styleClass="input-field" HBox.hgrow="ALWAYS" />
+                    <ComboBox fx:id="sortByComboBox" prefWidth="170.0" styleClass="input-combo" />
+                    <ComboBox fx:id="sortOrderComboBox" prefWidth="150.0" styleClass="input-combo" />
+                    <ComboBox fx:id="pageSizeComboBox" prefWidth="110.0" styleClass="input-combo" />
+                    <Button fx:id="newEvaluationButton" onAction="#handleNewEvaluation" styleClass="primary-button" text="Nouvelle evaluation" />
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="16.0" left="4.0" right="4.0" top="4.0" />
+            </padding>
+        </VBox>
+    </top>
+    <center>
+        <VBox styleClass="section-card" BorderPane.alignment="CENTER">
+            <Label styleClass="section-subtitle" text="Liste des evaluations" />
+            <TableView fx:id="evaluationTableView" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="titleColumn" text="Titre" />
+                    <TableColumn fx:id="typeColumn" text="Type" />
+                    <TableColumn fx:id="courseColumn" text="Cours" />
+                    <TableColumn fx:id="creationDateColumn" text="Creation" />
+                    <TableColumn fx:id="deadlineColumn" text="Date limite" />
+                    <TableColumn fx:id="maxScoreColumn" text="Note max" />
+                    <TableColumn fx:id="statusColumn" text="Statut" />
+                    <TableColumn fx:id="actionsColumn" text="Actions" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="12.0" styleClass="filter-bar">
+            <Label fx:id="paginationSummaryLabel" styleClass="muted-label" text="0 evaluation" />
+            <Pagination fx:id="pagination" maxPageIndicatorCount="5" pageCount="1" />
+        </HBox>
+    </bottom>
+</BorderPane>
+
